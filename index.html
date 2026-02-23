@@ -1355,17 +1355,15 @@
 
     // FAQ toggle
     function toggleFaq(btn) {
-      const body = btn.nextElementSibling;
-      const toggle = btn.querySelector('.toggle');
-      const isOpen = body.style.maxHeight && body.style.maxHeight !== '0px';
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
       // Close all
-      document.querySelectorAll('.faq-body').forEach(b => b.style.maxHeight = '0px');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
       document.querySelectorAll('.toggle').forEach(t => t.textContent = '+');
-      document.querySelectorAll('.faq-q').forEach(q => q.classList.remove('open'));
+      // Open this one if it wasn't already open
       if (!isOpen) {
-        body.style.maxHeight = body.scrollHeight + 'px';
-        toggle.textContent = '−';
-        btn.classList.add('open');
+        item.classList.add('open');
+        btn.querySelector('.toggle').textContent = '−';
       }
     }
 
