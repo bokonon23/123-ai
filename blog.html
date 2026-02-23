@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thinking Out Loud — 123-AI Blog</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --forest:     #1a3a2a;
+      --canopy:     #2d5a3d;
+      --moss:       #4a7c5e;
+      --fern:       #6aaa82;
+      --mist:       #c8dfd0;
+      --cream:      #f4f0e6;
+      --warm-white: #faf8f2;
+      --bark:       #5c4a32;
+      --earth:      #8b6f4e;
+      --gold:       #c4923a;
+      --text-dark:  #1e2820;
+      --text-mid:   #3d4f42;
+      --text-light: #6b7d6f;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body:    'Lato', sans-serif;
+      --radius: 4px;
+      --radius-lg: 12px;
+      --shadow: 0 4px 24px rgba(26,58,42,0.12);
+      --shadow-lg: 0 12px 48px rgba(26,58,42,0.18);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--warm-white);
+      color: var(--text-dark);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ============ NAV ============ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 0 5%;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(244,240,230,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(74,124,94,0.15);
+      transition: box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow: 0 2px 20px rgba(26,58,42,0.1); }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--forest);
+    }
+    .nav-logo .accent { color: var(--moss); font-style: italic; }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: var(--text-mid);
+      letter-spacing: 0.03em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--canopy); }
+    .btn {
+      display: inline-block;
+      padding: 0.65rem 1.6rem;
+      border-radius: var(--radius);
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: all 0.25s;
+      border: none;
+    }
+    .btn-primary { background: var(--canopy); color: var(--cream); }
+    .btn-primary:hover { background: var(--forest); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(26,58,42,0.25); }
+
+    /* ============ PAGE HEADER ============ */
+    .page-header {
+      background: linear-gradient(145deg, var(--forest) 0%, var(--canopy) 60%, #3d7a52 100%);
+      padding: 9rem 5% 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute;
+      right: -5%;
+      top: -20%;
+      width: 50vmin;
+      height: 50vmin;
+      border-radius: 50%;
+      border: 1px solid rgba(200,223,208,0.08);
+      box-shadow: 0 0 0 30px rgba(200,223,208,0.04), 0 0 0 60px rgba(200,223,208,0.03), 0 0 0 90px rgba(200,223,208,0.02);
+    }
+    .page-header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      color: rgba(200,223,208,0.6);
+      margin-bottom: 1.5rem;
+    }
+    .breadcrumb a { color: rgba(200,223,208,0.6); transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--mist); }
+    .breadcrumb span { opacity: 0.4; }
+    .page-header h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      color: var(--cream);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .page-header h1 em { font-style: italic; color: var(--fern); }
+    .page-header p {
+      font-size: 1.05rem;
+      color: rgba(244,240,230,0.75);
+      max-width: 540px;
+      line-height: 1.8;
+      font-weight: 300;
+    }
+
+    /* ============ FILTER TABS ============ */
+    .filter-bar {
+      background: var(--cream);
+      border-bottom: 1px solid rgba(74,124,94,0.12);
+      position: sticky;
+      top: 72px;
+      z-index: 50;
+    }
+    .filter-bar-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 5%;
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+    }
+    .filter-tab {
+      padding: 1.1rem 1.5rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      cursor: pointer;
+      border: none;
+      background: none;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: all 0.2s;
+      font-family: var(--font-body);
+    }
+    .filter-tab:hover { color: var(--canopy); }
+    .filter-tab.active { color: var(--canopy); border-bottom-color: var(--canopy); }
+
+    /* ============ BLOG GRID ============ */
+    .blog-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 4rem 5% 6rem;
+    }
+
+    /* Featured post — full width */
+    .post-featured {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      background: var(--cream);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid rgba(74,124,94,0.12);
+      margin-bottom: 3rem;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    .post-featured:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .post-featured-visual {
+      background: linear-gradient(145deg, var(--forest), var(--canopy));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem;
+      position: relative;
+      overflow: hidden;
+      min-height: 320px;
+    }
+    .post-featured-visual::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 30% 70%, rgba(106,170,130,0.15) 0%, transparent 60%);
+    }
+    .post-featured-emoji {
+      font-size: 6rem;
+      position: relative;
+      z-index: 1;
+      filter: drop-shadow(0 8px 24px rgba(0,0,0,0.2));
+    }
+    .post-featured-body {
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .post-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+    .post-category {
+      display: inline-block;
+      padding: 0.25rem 0.8rem;
+      border-radius: 100px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .cat-money    { background: rgba(196,146,58,0.12); color: var(--gold); }
+    .cat-tech     { background: rgba(74,124,94,0.12);  color: var(--canopy); }
+    .cat-ai       { background: rgba(45,90,61,0.12);   color: var(--forest); }
+    .cat-thinking { background: rgba(92,74,50,0.1);    color: var(--bark); }
+
+    .post-date {
+      font-size: 0.75rem;
+      color: var(--text-light);
+    }
+    .post-featured-body h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+      color: var(--forest);
+      line-height: 1.25;
+      margin-bottom: 1rem;
+    }
+    .post-featured-body p {
+      font-size: 0.925rem;
+      color: var(--text-mid);
+      line-height: 1.75;
+      margin-bottom: 1.75rem;
+    }
+    .post-read-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--canopy);
+      letter-spacing: 0.03em;
+      transition: gap 0.2s;
+    }
+    .post-read-more:hover { gap: 12px; }
+    .post-read-more::after { content: '→'; }
+
+    /* Grid of regular posts */
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .post-card {
+      background: var(--cream);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid rgba(74,124,94,0.12);
+      transition: all 0.3s;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+    .post-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(74,124,94,0.25);
+    }
+    .post-card-visual {
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .post-card-visual.v1 { background: linear-gradient(135deg, #1a3a2a, #2d5a3d); }
+    .post-card-visual.v2 { background: linear-gradient(135deg, #2d3a1a, #4a5e2d); }
+    .post-card-visual.v3 { background: linear-gradient(135deg, #3a2a1a, #6b4e2d); }
+    .post-card-visual.v4 { background: linear-gradient(135deg, #1a2d3a, #2d4a5e); }
+    .post-card-visual.v5 { background: linear-gradient(135deg, #2a1a3a, #4a2d5e); }
+    .post-card-body {
+      padding: 1.75rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .post-card-body h3 {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      color: var(--forest);
+      line-height: 1.35;
+      margin: 0.75rem 0 0.6rem;
+    }
+    .post-card-body p {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      line-height: 1.65;
+      flex: 1;
+      margin-bottom: 1.25rem;
+    }
+    .post-read-time {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .post-read-time::before { content: '🕐'; font-size: 0.7rem; }
+
+    /* ============ SECTION DIVIDER ============ */
+    .posts-section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--moss);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .posts-section-label::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--moss);
+      border-radius: 2px;
+    }
+    .posts-section-label::after {
+      content: '';
+      display: block;
+      flex: 1;
+      height: 1px;
+      background: rgba(74,124,94,0.15);
+    }
+
+    /* ============ ARCHIVE POSTS (from Blockstrata) ============ */
+    .archive-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    .archive-card {
+      background: var(--warm-white);
+      border: 1px solid rgba(74,124,94,0.1);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      display: flex;
+      gap: 1.25rem;
+      align-items: flex-start;
+      transition: all 0.25s;
+      cursor: pointer;
+    }
+    .archive-card:hover {
+      background: var(--cream);
+      border-color: rgba(74,124,94,0.25);
+      transform: translateX(4px);
+    }
+    .archive-num {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      color: rgba(74,124,94,0.15);
+      line-height: 1;
+      flex-shrink: 0;
+      min-width: 2.5rem;
+    }
+    .archive-card-content h4 {
+      font-family: var(--font-display);
+      font-size: 0.975rem;
+      color: var(--forest);
+      line-height: 1.3;
+      margin-bottom: 0.4rem;
+    }
+    .archive-card-content p {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      line-height: 1.5;
+      margin-bottom: 0.75rem;
+    }
+    .archive-note {
+      font-size: 0.7rem;
+      color: var(--earth);
+      font-style: italic;
+    }
+
+    /* ============ NEWSLETTER STRIP ============ */
+    .newsletter-strip {
+      background: linear-gradient(135deg, var(--forest) 0%, var(--canopy) 100%);
+      border-radius: var(--radius-lg);
+      padding: 3rem;
+      margin-top: 4rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2rem;
+      align-items: center;
+    }
+    .newsletter-strip h3 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      color: var(--cream);
+      margin-bottom: 0.5rem;
+    }
+    .newsletter-strip h3 em { font-style: italic; color: var(--fern); }
+    .newsletter-strip p {
+      font-size: 0.875rem;
+      color: rgba(244,240,230,0.65);
+    }
+    .newsletter-form {
+      display: flex;
+      gap: 0.75rem;
+    }
+    .newsletter-form input {
+      padding: 0.7rem 1.2rem;
+      border-radius: var(--radius);
+      border: 1px solid rgba(200,223,208,0.25);
+      background: rgba(244,240,230,0.1);
+      color: var(--cream);
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      outline: none;
+      min-width: 240px;
+      transition: border-color 0.2s;
+    }
+    .newsletter-form input::placeholder { color: rgba(244,240,230,0.4); }
+    .newsletter-form input:focus { border-color: rgba(200,223,208,0.5); }
+    .btn-fern {
+      background: var(--fern);
+      color: var(--forest);
+      font-weight: 700;
+      padding: 0.7rem 1.5rem;
+    }
+    .btn-fern:hover { background: var(--mist); }
+
+    /* ============ FULL ARTICLE OVERLAY ============ */
+    .article-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(26,58,42,0.7);
+      backdrop-filter: blur(4px);
+      overflow-y: auto;
+      padding: 2rem 1rem;
+    }
+    .article-overlay.open { display: flex; align-items: flex-start; justify-content: center; }
+    .article-panel {
+      background: var(--warm-white);
+      border-radius: var(--radius-lg);
+      max-width: 760px;
+      width: 100%;
+      margin: auto;
+      position: relative;
+      overflow: hidden;
+    }
+    .article-panel-header {
+      background: linear-gradient(145deg, var(--forest), var(--canopy));
+      padding: 3rem 3rem 2.5rem;
+      position: relative;
+    }
+    .article-close {
+      position: absolute;
+      top: 1.25rem; right: 1.25rem;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: rgba(244,240,230,0.15);
+      border: none;
+      color: var(--cream);
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .article-close:hover { background: rgba(244,240,230,0.25); }
+    .article-panel-header .post-meta { margin-bottom: 0.75rem; }
+    .article-panel-header h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      color: var(--cream);
+      line-height: 1.25;
+      margin-bottom: 0.75rem;
+    }
+    .article-panel-header .article-sub {
+      font-size: 0.9rem;
+      color: rgba(244,240,230,0.7);
+      font-style: italic;
+    }
+    .article-body {
+      padding: 3rem;
+      font-size: 1rem;
+      line-height: 1.85;
+      color: var(--text-mid);
+    }
+    .article-body h2 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      color: var(--forest);
+      margin: 2rem 0 0.75rem;
+    }
+    .article-body h3 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      color: var(--canopy);
+      margin: 1.5rem 0 0.5rem;
+    }
+    .article-body p { margin-bottom: 1.2rem; }
+    .article-body blockquote {
+      border-left: 3px solid var(--fern);
+      padding: 0.75rem 1.5rem;
+      margin: 1.5rem 0;
+      background: var(--cream);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      font-style: italic;
+      color: var(--text-mid);
+    }
+    .article-body strong { color: var(--forest); font-weight: 700; }
+    .article-body ul, .article-body ol {
+      margin: 0.75rem 0 1.2rem 1.5rem;
+    }
+    .article-body li { margin-bottom: 0.4rem; }
+    .article-cta {
+      padding: 2rem 3rem 3rem;
+      border-top: 1px solid rgba(74,124,94,0.1);
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .article-cta p {
+      font-size: 0.875rem;
+      color: var(--text-light);
+      flex: 1;
+    }
+
+    /* ============ SCROLL REVEAL ============ */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ============ FOOTER ============ */
+    footer {
+      background: var(--text-dark);
+      color: rgba(244,240,230,0.5);
+      padding: 3rem 5%;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo { font-family: var(--font-display); font-size: 1.2rem; color: var(--cream); }
+    .footer-logo span { color: var(--fern); font-style: italic; }
+    .footer-links { display: flex; gap: 2rem; list-style: none; }
+    .footer-links a { font-size: 0.8rem; color: rgba(244,240,230,0.5); transition: color 0.2s; }
+    .footer-links a:hover { color: var(--fern); }
+    .footer-copy {
+      font-size: 0.78rem;
+      text-align: center;
+      width: 100%;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(244,240,230,0.06);
+      margin-top: 1rem;
+    }
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 900px) {
+      .post-featured { grid-template-columns: 1fr; }
+      .post-featured-visual { min-height: 200px; }
+      .posts-grid { grid-template-columns: 1fr 1fr; }
+      .archive-grid { grid-template-columns: 1fr; }
+      .newsletter-strip { grid-template-columns: 1fr; }
+      .newsletter-form { flex-direction: column; }
+      .newsletter-form input { min-width: unset; }
+    }
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .posts-grid { grid-template-columns: 1fr; }
+      .article-panel-header, .article-body, .article-cta { padding: 1.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============ NAV ============ -->
+  <nav id="main-nav">
+    <a href="index.html" class="nav-logo">123<span class="accent">-AI</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html#services">Services</a></li>
+      <li><a href="index.html#process">How It Works</a></li>
+      <li><a href="index.html#who">Who It's For</a></li>
+      <li><a href="blog.html" class="active">Blog</a></li>
+    </ul>
+    <a href="index.html#contact" class="btn btn-primary">Book a Free Call</a>
+  </nav>
+
+  <!-- ============ PAGE HEADER ============ -->
+  <header class="page-header">
+    <div class="page-header-inner">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>/</span>
+        <span>Blog</span>
+      </div>
+      <h1>Thinking <em>Out Loud</em></h1>
+      <p>Ideas on AI, automation, digital money, and working smarter — so you can spend more time outside. Written by Bruce Milligan.</p>
+    </div>
+  </header>
+
+  <!-- ============ FILTER BAR ============ -->
+  <div class="filter-bar">
+    <div class="filter-bar-inner">
+      <button class="filter-tab active" onclick="filterPosts('all', this)">All Posts</button>
+      <button class="filter-tab" onclick="filterPosts('ai', this)">AI & Automation</button>
+      <button class="filter-tab" onclick="filterPosts('money', this)">Digital Money</button>
+      <button class="filter-tab" onclick="filterPosts('tech', this)">Technology</button>
+      <button class="filter-tab" onclick="filterPosts('thinking', this)">Thinking</button>
+    </div>
+  </div>
+
+  <!-- ============ BLOG CONTENT ============ -->
+  <div class="blog-section">
+
+    <!-- FEATURED POST -->
+    <div class="post-featured fade-up" onclick="openArticle('money-illusion')">
+      <div class="post-featured-visual">
+        <span class="post-featured-emoji">💰</span>
+      </div>
+      <div class="post-featured-body">
+        <div class="post-meta">
+          <span class="post-category cat-money">Digital Money</span>
+          <span class="post-date">November 2022</span>
+        </div>
+        <h2>The Great Money Illusion — and why you should care about cash</h2>
+        <p>Money infuses our lives from such a young age it becomes a 'given' — not unlike the air we breathe. Our understanding of it typically forms more by a slow hypnosis from childhood than by structured learning. This piece unpicks that puzzle and asks what digital cash really means for your freedom.</p>
+        <span class="post-read-more">Read the full piece</span>
+      </div>
+    </div>
+
+    <!-- RECENT AI POSTS SECTION -->
+    <div class="posts-section-label">Latest — AI & Automation</div>
+    <div class="posts-grid">
+
+      <!-- Coming soon card -->
+      <div class="post-card fade-up" style="opacity:0.6; cursor:default;">
+        <div class="post-card-visual v1">✍️</div>
+        <div class="post-card-body">
+          <div class="post-meta">
+            <span class="post-category cat-ai">AI & Automation</span>
+          </div>
+          <h3>Coming Soon: My First Month Using Claude for Client Work</h3>
+          <p>What actually worked, what didn't, and the one automation that saved me four hours in a single week.</p>
+          <span class="post-read-time">Coming soon</span>
+        </div>
+      </div>
+
+      <div class="post-card fade-up" style="opacity:0.6; cursor:default;">
+        <div class="post-card-visual v2">🤖</div>
+        <div class="post-card-body">
+          <div class="post-meta">
+            <span class="post-category cat-ai">AI & Automation</span>
+          </div>
+          <h3>Coming Soon: The 5 Automations Every Solo Trader Should Set Up First</h3>
+          <p>Before you go deep on AI strategy, nail these five basics. They'll free up 3–5 hours per week and cost almost nothing.</p>
+          <span class="post-read-time">Coming soon</span>
+        </div>
+      </div>
+
+      <div class="post-card fade-up" style="opacity:0.6; cursor:default;">
+        <div class="post-card-visual v3">🌿</div>
+        <div class="post-card-body">
+          <div class="post-meta">
+            <span class="post-category cat-thinking">Thinking</span>
+          </div>
+          <h3>Coming Soon: Work From Walk — How I Run My Business from 10,000 Steps a Day</h3>
+          <p>The philosophy, the tools, and the honest truth about what it takes to genuinely step away from your desk.</p>
+          <span class="post-read-time">Coming soon</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ARCHIVE FROM BLOCKSTRATA -->
+    <div class="posts-section-label" style="margin-top: 3rem;">From the Archive — Digital Money & Technology</div>
+    <p style="font-size:0.875rem; color:var(--text-light); margin-bottom:1.5rem; max-width:620px;">
+      Before 123-AI, I wrote extensively about digital money, blockchain and cryptographic technology at Blockstrata. These pieces are preserved here — the thinking holds up, even if the world has moved on.
+    </p>
+
+    <div class="archive-grid">
+      <div class="archive-card fade-up" onclick="openArticle('money-internet')">
+        <div class="archive-num">01</div>
+        <div class="archive-card-content">
+          <div class="post-meta" style="margin-bottom:0.5rem;">
+            <span class="post-category cat-money">Digital Money</span>
+            <span class="post-date">Jan 2023</span>
+          </div>
+          <h4>What Will Be the Money of the Internet?</h4>
+          <p>A plain-English conversation about why the internet still doesn't have a native currency — and why that gap matters more than ever in an age of AI agents.</p>
+          <span class="archive-note">Originally published on Blockstrata.co</span>
+        </div>
+      </div>
+
+      <div class="archive-card fade-up" onclick="openArticle('digital-money')">
+        <div class="archive-num">02</div>
+        <div class="archive-card-content">
+          <div class="post-meta" style="margin-bottom:0.5rem;">
+            <span class="post-category cat-money">Digital Money</span>
+            <span class="post-date">Oct 2024</span>
+          </div>
+          <h4>The Race for Digital Money Dominance</h4>
+          <p>Stablecoins, CBDCs, and self-custodied crypto — who wins the race to become the world's default digital money? The answer matters for AI-powered economies.</p>
+          <span class="archive-note">Originally published on Blockstrata.co</span>
+        </div>
+      </div>
+
+      <div class="archive-card fade-up" onclick="openArticle('zk-primer')">
+        <div class="archive-num">03</div>
+        <div class="archive-card-content">
+          <div class="post-meta" style="margin-bottom:0.5rem;">
+            <span class="post-category cat-tech">Technology</span>
+            <span class="post-date">Oct 2022</span>
+          </div>
+          <h4>Zero Knowledge: SNARKs, STARKs & Rollups — A Primer</h4>
+          <p>If Vitalik says ZK proofs are as important as blockchains themselves, you should probably know what they are. 8 minutes to get started.</p>
+          <span class="archive-note">Originally published on Blockstrata.co</span>
+        </div>
+      </div>
+
+      <div class="archive-card fade-up" onclick="openArticle('money-illusion')">
+        <div class="archive-num">04</div>
+        <div class="archive-card-content">
+          <div class="post-meta" style="margin-bottom:0.5rem;">
+            <span class="post-category cat-thinking">Thinking</span>
+            <span class="post-date">Nov 2022</span>
+          </div>
+          <h4>The Great Money Illusion</h4>
+          <p>The philosophical deep-dive. What is modern money, why is cash worth fighting for, and how does blockchain compare to the banking system's layers?</p>
+          <span class="archive-note">Originally published on Blockstrata.co</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- NEWSLETTER -->
+    <div class="newsletter-strip fade-up">
+      <div>
+        <h3>Get new posts <em>before they're published</em></h3>
+        <p>Occasional writing on AI, automation and working smarter. No spam. Unsubscribe any time.</p>
+      </div>
+      <div class="newsletter-form">
+        <input type="email" placeholder="your@email.com" />
+        <button class="btn btn-fern">Subscribe</button>
+      </div>
+    </div>
+
+  </div><!-- /blog-section -->
+
+  <!-- ============ ARTICLE OVERLAYS ============ -->
+
+  <!-- MONEY ILLUSION -->
+  <div class="article-overlay" id="article-money-illusion">
+    <div class="article-panel">
+      <div class="article-panel-header">
+        <button class="article-close" onclick="closeArticle('money-illusion')">✕</button>
+        <div class="post-meta">
+          <span class="post-category cat-money">Digital Money</span>
+          <span class="post-date" style="color:rgba(244,240,230,0.6);">November 2022</span>
+        </div>
+        <h1>The Great Money Illusion</h1>
+        <p class="article-sub">…and why you should care about cash and digital cash</p>
+      </div>
+      <div class="article-body">
+        <p>It seems at first to be a simple enough question: <strong>what is money?</strong></p>
+        <p>A Google search or two later, and you will have a multitude of not-so-simple answers. It won't be long before you are contemplating Cowrie shells, Rai stones and the evolution of the banknote. You'll encounter various interpretations of history, enter into semantics of money versus currency, the gold standard and commodity money.</p>
+        <p>However, we can get to a working definition if we start from understanding 'modern money'. By 'modern money' I mean the money that we all typically know and use — government-issued currency.</p>
+        <p><strong>Our understanding of money typically forms more by a slow hypnosis from childhood than by way of structured learning.</strong> Unpicking that puzzle in our minds is a huge challenge, requiring the shedding of deeply held beliefs.</p>
+        <blockquote>
+          "I sometimes get the feeling that if you look into the concept of money with too much scrutiny, it will simply disintegrate. Money is a bit like language: you are born in a given system, you grow up using it but you seldom have any incentive to speculate on its essence." — Brett Scott, Cloud-Money
+        </blockquote>
+        <h2>War on Cash</h2>
+        <p>Recently, there has been much debate about a global 'War on Cash'. Cash has been marketed as 'outdated', a hygiene risk, and used for terrorist financing. The Covid saga expedited this story significantly.</p>
+        <p>But this is a very one-sided view. Cash protects privacy and is resilient in the face of natural disasters or banking failures. The lack of privacy that comes with digital money leads to a better environment for automated financial controls — billions of people becoming further locked into surveillance, their data extracted and exploited.</p>
+        <p><strong>Cash is a weapon against this.</strong></p>
+        <h2>Money and Blockchain — A Useful Comparison</h2>
+        <p>In the blockchain world, there is the concept of 'Layers' of settlement. Layer 1 blockchains like Ethereum are expensive and offer premium security. Layer 2s periodically settle on the L1s. The banking world is not dissimilar — central banks, commercial banks, then payment processors like Visa and Mastercard.</p>
+        <p>Cash enables peer-to-peer transactions with optional privacy — something increasingly difficult to achieve in the digital world.</p>
+        <h2>Closing Thoughts</h2>
+        <p>If you take away nothing more from this piece than the thought that perhaps, just maybe, cash is worth saving, then it was time well spent. Cash is the only real government money we have access to, offers unique privacy features, and provides a critical backup in the face of natural disasters, bank runs and cyber attacks.</p>
+      </div>
+      <div class="article-cta">
+        <p>Interested in how AI and digital money intersect? Let's talk.</p>
+        <a href="index.html#contact" class="btn btn-primary">Book a Free Call</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MONEY OF THE INTERNET -->
+  <div class="article-overlay" id="article-money-internet">
+    <div class="article-panel">
+      <div class="article-panel-header">
+        <button class="article-close" onclick="closeArticle('money-internet')">✕</button>
+        <div class="post-meta">
+          <span class="post-category cat-money">Digital Money</span>
+          <span class="post-date" style="color:rgba(244,240,230,0.6);">January 2023</span>
+        </div>
+        <h1>What Will Be the Money of the Internet?</h1>
+        <p class="article-sub">A conversation about the gap the existing financial system can't fill</p>
+      </div>
+      <div class="article-body">
+        <blockquote>
+          <strong>TLDR:</strong> The current systems for conducting commerce online have their limitations. They have not evolved to service the global and borderless nature of the internet. A global internet-native currency would offer low transaction fees, decentralisation, and the ability to facilitate micropayments — potentially flipping the advertising-centric model of the web.
+        </blockquote>
+        <h2>The Question</h2>
+        <p>Despite the internet being borderless and global by nature, it is still governed largely by the currencies of the nation states they originate and land in. Friction exists in making payments and many are locked out of using credit cards and bank accounts.</p>
+        <p>Every time you use a browser you see the familiar lock icon — indicating a site is secured by HTTPS. That standard for securing web traffic emerged from the same community now building crypto protocols. So far, there has been no equivalent standard established for financial transactions.</p>
+        <h2>Why Micropayments Matter</h2>
+        <p>Micropayments — transactions of less than a dollar, sometimes less than 1 cent — are not viable on the old financial system. Low transaction fees make crypto well-suited for facilitating these. The ability to pay say £0.01 to view a webpage, processed automatically from a wallet you control, received directly by the creator, could flip the advertising-centric model of the internet entirely.</p>
+        <h2>The IoT and AI Connection</h2>
+        <p>We have moved beyond it just being humans that need payment facilities. Machines will need means of payment and receipt for services. Imagine a vending machine that reorders its own stock, or AI agents executing transactions on your behalf. In the traditional world, a human would need to sit behind the account. Not so with smart contracts and crypto payments.</p>
+        <h2>The Bull Case</h2>
+        <p>At the root, all of humanity's achievements trace back to our ability for grand-scale coordination — basic stuff like bookkeeping. What has been created with the advent of cryptocurrency protocols is a way of coordinating economic activity with tamper-proof ledgers that are not owned by anyone — a shield against corruption.</p>
+      </div>
+      <div class="article-cta">
+        <p>Curious how AI agents and digital payments connect to your business? Let's talk.</p>
+        <a href="index.html#contact" class="btn btn-primary">Book a Free Call</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIGITAL MONEY DOMINANCE -->
+  <div class="article-overlay" id="article-digital-money">
+    <div class="article-panel">
+      <div class="article-panel-header">
+        <button class="article-close" onclick="closeArticle('digital-money')">✕</button>
+        <div class="post-meta">
+          <span class="post-category cat-money">Digital Money</span>
+          <span class="post-date" style="color:rgba(244,240,230,0.6);">October 2024</span>
+        </div>
+        <h1>The Race for Digital Money Dominance</h1>
+        <p class="article-sub">Stablecoins, CBDCs, and the self-custodied future</p>
+      </div>
+      <div class="article-body">
+        <p>Digital money represents a transformative shift in how we perceive and use currency. Unlike traditional forms tied to physical assets and government backing, digital money exists purely in electronic form — driven by advances in blockchain technology.</p>
+        <p>A noteworthy aspect of the current landscape: approximately 99% of stablecoin volume is denominated in dollars, effectively solidifying the US dollar's status as the de facto digital currency for global transactions.</p>
+        <h2>Self-Custodied Money and AI</h2>
+        <p>The rise of artificial intelligence is reshaping our understanding of transactions, particularly with the potential for AI-to-AI exchanges facilitated by self-custodied digital money. AI agents can analyse market conditions, assess risks, and make decisions — autonomously executing transactions using self-custodied funds.</p>
+        <p>This isn't science fiction. Smart contracts already automate agreements that previously required lawyers, accountants and settlement delays of days.</p>
+        <h2>Cryptocurrencies vs CBDCs</h2>
+        <p>Cryptocurrencies are decentralised and resistant to censorship, encouraging rapid innovation. CBDCs offer regulatory clarity but raise serious concerns about surveillance and government control of spending.</p>
+        <p>The most likely future is coexistence — users choosing between self-custodied crypto for autonomy and CBDCs for everyday stability. This diversity could create a more resilient financial system overall.</p>
+        <h2>What This Means</h2>
+        <p>Self-custodied digital money is poised to emerge as a dominant force — particularly as AI-to-AI transactions become an increasingly real use case for borderless, programmable money. The businesses that understand this early will have a significant advantage.</p>
+      </div>
+      <div class="article-cta">
+        <p>Want to understand how AI and the future of money affects your business?</p>
+        <a href="index.html#contact" class="btn btn-primary">Book a Free Call</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ZK PRIMER -->
+  <div class="article-overlay" id="article-zk-primer">
+    <div class="article-panel">
+      <div class="article-panel-header">
+        <button class="article-close" onclick="closeArticle('zk-primer')">✕</button>
+        <div class="post-meta">
+          <span class="post-category cat-tech">Technology</span>
+          <span class="post-date" style="color:rgba(244,240,230,0.6);">October 2022</span>
+        </div>
+        <h1>Zero Knowledge: SNARKs, STARKs & Rollups</h1>
+        <p class="article-sub">A basic primer for the uninitiated</p>
+      </div>
+      <div class="article-body">
+        <blockquote>"ZK SNARKs are as important a technological breakthrough as blockchains themselves." — Vitalik Buterin, 2022</blockquote>
+        <p><strong>TLDR:</strong> zk-proofs were the original mathematical innovation. zk-rollups can help batch transactions and scale blockchains. zk-SNARKs and zk-STARKs are both methods of implementing zk-rollups. A future state can be imagined with hundreds of thousands of transactions settling via multi-layered, connected zk-rollup blockchains.</p>
+        <h2>What is Zero Knowledge?</h2>
+        <p>"ZK" is shorthand for zk-proofs — a breakthrough mathematical approach to sharing information. A zk-proof allows one party to prove to another that a given statement is true, while conveying no additional information beyond that fact.</p>
+        <p>A quick metaphor: imagine you're looking at a 'Where's Wally?' puzzle and want to prove to a friend you know where Wally is without revealing how to find him. You cut a hole the size of Wally in a large piece of card and place it over the picture — revealing only Wally. Proof without disclosure.</p>
+        <h2>Why It Matters Beyond Privacy</h2>
+        <p>The first implementations of zk-proofs in blockchain were for privacy — projects like Zcash. But Vitalik's excitement isn't about privacy, it's about scalability. zk-rollups bundle thousands of transactions in a batch and post only minimal summary data to the base layer — dramatically increasing throughput.</p>
+        <h2>SNARKs vs STARKs</h2>
+        <p>Both are types of non-interactive zero-knowledge proofs. SNARKs (Succinct Non-Interactive ARguments of Knowledge) are compact and fast to verify. STARKs (Scalable Transparent ARguments of Knowledge) don't require a trusted setup — making them more decentralised by nature.</p>
+        <h2>Why This Still Matters in 2025</h2>
+        <p>ZK technology is now at the heart of AI privacy, verifiable computation, and identity systems. The same mathematical principles that allow a blockchain to prove a transaction is valid without revealing its contents are being applied to AI model verification, private data sharing, and secure computation. If you work with AI, ZK proofs will touch your world sooner than you think.</p>
+      </div>
+      <div class="article-cta">
+        <p>Want to understand how cryptographic privacy applies to your AI implementation?</p>
+        <a href="index.html#contact" class="btn btn-primary">Book a Free Call</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">123<span>-AI</span>.co.uk</div>
+      <ul class="footer-links">
+        <li><a href="index.html#services">Services</a></li>
+        <li><a href="index.html#process">Process</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-inner footer-copy">
+      © 2025 123-AI Ltd · Registered in England & Wales · hello@123-ai.co.uk
+    </div>
+  </footer>
+
+  <script>
+    // Nav scroll
+    const nav = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20));
+
+    // Scroll reveal
+    const fadeEls = document.querySelectorAll('.fade-up');
+    const observer = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+      { threshold: 0.1 }
+    );
+    fadeEls.forEach(el => observer.observe(el));
+
+    // Filter tabs (simple show/hide by data category)
+    function filterPosts(cat, btn) {
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      // Future: add data-cat attributes to post cards for real filtering
+    }
+
+    // Article overlay
+    function openArticle(id) {
+      document.getElementById('article-' + id).classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeArticle(id) {
+      document.getElementById('article-' + id).classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    // Close on backdrop click
+    document.querySelectorAll('.article-overlay').forEach(overlay => {
+      overlay.addEventListener('click', e => {
+        if (e.target === overlay) {
+          overlay.classList.remove('open');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+    // Close on Escape
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.article-overlay.open').forEach(o => {
+          o.classList.remove('open');
+          document.body.style.overflow = '';
+        });
+      }
+    });
+  </script>
+</body>
+</html>
