@@ -971,39 +971,49 @@
     const nav = document.getElementById('main-nav');
     window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20));
 
-    // Scroll reveal
-    const fadeEls = document.querySelectorAll('.fade-up');
-    const observer = new IntersectionObserver(
-      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
-      { threshold: 0.1 }
-    );
-    fadeEls.forEach(el => observer.observe(el));
-
-    // Filter tabs (simple show/hide by data category)
+    // Filter tabs
     function filterPosts(cat, btn) {
-      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      // Future: add data-cat attributes to post cards for real filtering
     }
 
-    // Article overlay
+    // Article overlay - open
     function openArticle(id) {
-      document.getElementById('article-' + id).classList.add('open');
-      document.body.style.overflow = 'hidden';
+      var overlay = document.getElementById('article-' + id);
+      if (overlay) {
+        overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
     }
+
+    // Article overlay - close
     function closeArticle(id) {
-      document.getElementById('article-' + id).classList.remove('open');
-      document.body.style.overflow = '';
+      var overlay = document.getElementById('article-' + id);
+      if (overlay) {
+        overlay.classList.remove('open');
+        document.body.style.overflow = '';
+      }
     }
+
     // Close on backdrop click
-    document.querySelectorAll('.article-overlay').forEach(overlay => {
-      overlay.addEventListener('click', e => {
+    document.querySelectorAll('.article-overlay').forEach(function(overlay) {
+      overlay.addEventListener('click', function(e) {
         if (e.target === overlay) {
           overlay.classList.remove('open');
           document.body.style.overflow = '';
         }
       });
     });
-    // Close on Escape
-    document.addEventListener('keydown', e => {
-      if (e.key 
+
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.article-overlay.open').forEach(function(o) {
+          o.classList.remove('open');
+          document.body.style.overflow = '';
+        });
+      }
+    });
+  </script>
+</body>
+</html>
