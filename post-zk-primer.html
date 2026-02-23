@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zero Knowledge: SNARKs, STARKs & Rollups — 123-AI Blog</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {--forest:#1a3a2a;--canopy:#2d5a3d;--fern:#4a7c5e;--moss:#6aaa82;--cream:#f4f0e6;--warm-white:#faf8f3;--text-dark:#1a2a1f;--text-mid:#3d5a45;--font-display:'Playfair Display',Georgia,serif;--font-body:'Lato',system-ui,sans-serif;--radius:10px;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:var(--font-body);background:var(--warm-white);color:var(--text-dark);line-height:1.7;}
+    nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(250,248,243,0.96);backdrop-filter:blur(8px);border-bottom:1px solid rgba(74,124,94,0.12);padding:0 5%;height:64px;display:flex;align-items:center;justify-content:space-between;}
+    .nav-logo{font-family:var(--font-display);font-size:1.2rem;font-weight:700;color:var(--forest);text-decoration:none;}
+    .nav-logo span{color:var(--fern);font-style:italic;}
+    .nav-links{display:flex;align-items:center;gap:2rem;list-style:none;}
+    .nav-links a{font-size:0.875rem;color:var(--text-mid);text-decoration:none;transition:color 0.2s;}
+    .nav-links a:hover{color:var(--canopy);}
+    .btn{display:inline-block;padding:0.6rem 1.4rem;border-radius:var(--radius);font-family:var(--font-body);font-size:0.875rem;font-weight:700;text-decoration:none;cursor:pointer;border:none;transition:all 0.2s;}
+    .btn-primary{background:var(--forest);color:var(--cream);}
+    .btn-primary:hover{background:var(--canopy);}
+    .btn-cream{background:var(--cream);color:var(--forest);}
+    .btn-cream:hover{background:white;}
+    .article-hero{padding-top:64px;background:linear-gradient(160deg,rgba(26,58,42,0.88),rgba(45,90,61,0.82)),url('images/zk-primer.jpg') center center/cover no-repeat;min-height:340px;display:flex;align-items:flex-end;}
+    .article-hero-inner{max-width:760px;margin:0 auto;padding:3rem 5%;width:100%;}
+    .cat-tag{font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.25rem 0.75rem;border-radius:20px;background:rgba(106,170,130,0.25);color:var(--moss);border:1px solid rgba(106,170,130,0.4);}
+    .article-date{font-size:0.8rem;color:rgba(244,240,230,0.6);margin-left:0.75rem;}
+    .article-hero h1{font-family:var(--font-display);font-size:clamp(1.6rem,4vw,2.4rem);color:var(--cream);line-height:1.2;margin:1rem 0 0.5rem;}
+    .article-hero .subtitle{font-size:1rem;color:rgba(244,240,230,0.75);font-style:italic;}
+    .article-source{font-size:0.75rem;color:rgba(244,240,230,0.4);margin-top:0.75rem;}
+    .back-nav{max-width:760px;margin:0 auto;padding:1.5rem 5% 0;}
+    .back-link{font-size:0.85rem;color:var(--fern);text-decoration:none;}
+    .back-link:hover{color:var(--canopy);}
+    .article-body{max-width:760px;margin:0 auto;padding:2.5rem 5%;}
+    .article-body h2{font-family:var(--font-display);font-size:1.4rem;color:var(--forest);margin:2.5rem 0 0.75rem;}
+    .article-body h3{font-family:var(--font-display);font-size:1.15rem;color:var(--canopy);margin:1.75rem 0 0.5rem;}
+    .article-body p{margin-bottom:1.25rem;font-size:1rem;line-height:1.8;}
+    .article-body strong{color:var(--forest);}
+    .article-body blockquote{border-left:3px solid var(--moss);padding:1rem 1.5rem;margin:2rem 0;background:rgba(106,170,130,0.06);border-radius:0 var(--radius) var(--radius) 0;font-style:italic;color:var(--text-mid);}
+    .article-body ul,.article-body ol{padding-left:1.5rem;margin-bottom:1.25rem;}
+    .article-body li{margin-bottom:0.5rem;}
+    .article-body hr{border:none;border-top:1px solid rgba(74,124,94,0.15);margin:2.5rem 0;}
+    .tldr{background:rgba(74,124,94,0.07);border:1px solid rgba(74,124,94,0.2);border-radius:var(--radius);padding:1.5rem;margin-bottom:2rem;}
+    .tldr-label{font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--fern);display:block;margin-bottom:0.5rem;}
+    .article-cta{background:linear-gradient(135deg,var(--forest),var(--canopy));border-radius:16px;padding:2.5rem;text-align:center;margin:3rem 5%;}
+    .article-cta p{color:rgba(244,240,230,0.8);margin-bottom:1.25rem;font-size:0.95rem;}
+    footer{background:var(--forest);color:rgba(244,240,230,0.6);text-align:center;padding:2rem 5%;font-size:0.8rem;margin-top:0;}
+    footer a{color:var(--moss);text-decoration:none;}
+    @media(max-width:600px){.nav-links{display:none;}}
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-logo">123<span>-AI</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html#services">Services</a></li>
+      <li><a href="index.html#process">How It Works</a></li>
+      <li><a href="blog.html">Blog</a></li>
+    </ul>
+    <a href="index.html#contact" class="btn btn-primary">Book a Free Call</a>
+  </nav>
+
+  <div class="article-hero">
+    <div class="article-hero-inner">
+      <span class="cat-tag">Technology</span><span class="article-date">October 2022</span>
+      <h1>Zero Knowledge: SNARKs, STARKs & Rollups</h1>
+      <p class="subtitle">A basic primer for the uninitiated</p>
+      <p class="article-source">Originally published on Blockstrata.co · Bruce Milligan</p>
+    </div>
+  </div>
+
+  <div class="back-nav"><a href="blog.html" class="back-link">← Back to Blog</a></div>
+
+  <article class="article-body">
+<blockquote>"ZK SNARKs are as important a technological breakthrough as blockchains themselves." — Vitalik Buterin, September 2022</blockquote>
+<div class="tldr"><span class="tldr-label">TL;DR</span>zk-proofs were the original mathematical innovation. zk-rollups can help batch transactions and scale blockchains. zk-SNARKs and zk-STARKs are both methods of implementing zk-rollups. Several projects are racing to scale blockchains — particularly Ethereum — with this technology. zkEVM is the latest development, allowing smart contracts to be included rather than just simple transactions.</div>
+<h2>What is Zero Knowledge?</h2>
+<p>"ZK" is shorthand for <strong>zk-proofs</strong> — a breakthrough mathematical approach to sharing information. A zk-proof is a method by which one party (the prover) can prove to another party (the verifier) that a given statement is true, while avoiding conveying any additional information apart from the fact that the statement is true.</p>
+<p>A quick metaphor: imagine you're looking at a 'Where's Wally?' puzzle and want to prove to a friend you know where Wally is without revealing how to find him. You take a piece of card larger than the puzzle, cut out a hole the size of Wally, and place it over the picture — revealing only Wally. Your friend can see that you knew, without learning anything about his location.</p>
+<hr>
+<h2>Why Have zk-Proofs Become Important to Blockchain?</h2>
+<p>The first implementations were in privacy projects like Zcash. But privacy isn't the main reason for Vitalik's excitement. The big goal is <strong>scalability</strong> — zk-related tech is the prime candidate to deliver orders of magnitude of scalability to Ethereum.</p>
+<p>zk-proofs can be interactive (secure but slow) or non-interactive (a single exchange of information, enabling the speed that makes this technology transformational). With non-interactive proofs, there is a greater requirement to perform proving calculations — the 'Prover' and decentralising it is where most engineering challenges are focused.</p>
+<hr>
+<h2>zk-SNARKs vs. zk-STARKs</h2>
+<p><strong>SNARK</strong> — Succinct Non-Interactive ARguments of Knowledge: compact proof size, quick to verify, single-transaction generation. Zcash has used SNARKs since 2016.</p>
+<p><strong>STARK</strong> — Scalable Transparent ARgument of Knowledge: enables off-chain computation for exponential scalability, and uses publicly-available randomness — eliminating the need for a trusted setup that SNARKs require.</p>
+<p>Both approaches allow for fast verification and less block space, meaning more scalability for networks like Ethereum.</p>
+<hr>
+<h2>zk-Rollups</h2>
+<p>zk-Rollups increase scalability by bundling thousands of transactions in a batch and posting only minimal summary data to the base layer. This is where the real excitement lies — not just privacy, but dramatically increasing the number of transactions Ethereum can process per second.</p>
+<hr>
+<h2>zkEVM — The Latest Development</h2>
+<p>zkEVM recreates existing EVM opcodes for proving and verification in circuits, allowing them to execute smart contracts — the best of both worlds. Projects like StarkNet, ZKSync, Polygon Zero, and SCROLL were racing to build this in 2022, and significant progress has been made since.</p>
+<hr>
+<h2>Why This Still Matters</h2>
+<p>ZK technology is now at the heart of AI privacy, verifiable computation, and identity systems. Steve Newcomb of ZKSync described it well: "I liken it to when nobody trusted their credit cards on the browser and then we agreed on SSL everywhere — we got the lock icon and suddenly people started using their credit cards online. It created e-commerce. I think that's going to be the same thing with zkEVM rollup tech."</p>
+</article>
+
+  <div class="article-cta">
+    <p>Interested in how AI, automation and digital money intersect with your business?</p>
+    <a href="index.html#contact" class="btn btn-cream">Book a Free Call</a>
+  </div>
+
+  <footer>
+    <p>© 2026 123-AI Ltd · <a href="blog.html">Blog</a> · <a href="mailto:hello@123-ai.co.uk">hello@123-ai.co.uk</a></p>
+  </footer>
+</body>
+</html>

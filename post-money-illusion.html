@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Great Money Illusion — 123-AI Blog</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {--forest:#1a3a2a;--canopy:#2d5a3d;--fern:#4a7c5e;--moss:#6aaa82;--cream:#f4f0e6;--warm-white:#faf8f3;--text-dark:#1a2a1f;--text-mid:#3d5a45;--font-display:'Playfair Display',Georgia,serif;--font-body:'Lato',system-ui,sans-serif;--radius:10px;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:var(--font-body);background:var(--warm-white);color:var(--text-dark);line-height:1.7;}
+    nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(250,248,243,0.96);backdrop-filter:blur(8px);border-bottom:1px solid rgba(74,124,94,0.12);padding:0 5%;height:64px;display:flex;align-items:center;justify-content:space-between;}
+    .nav-logo{font-family:var(--font-display);font-size:1.2rem;font-weight:700;color:var(--forest);text-decoration:none;}
+    .nav-logo span{color:var(--fern);font-style:italic;}
+    .nav-links{display:flex;align-items:center;gap:2rem;list-style:none;}
+    .nav-links a{font-size:0.875rem;color:var(--text-mid);text-decoration:none;transition:color 0.2s;}
+    .nav-links a:hover{color:var(--canopy);}
+    .btn{display:inline-block;padding:0.6rem 1.4rem;border-radius:var(--radius);font-family:var(--font-body);font-size:0.875rem;font-weight:700;text-decoration:none;cursor:pointer;border:none;transition:all 0.2s;}
+    .btn-primary{background:var(--forest);color:var(--cream);}
+    .btn-primary:hover{background:var(--canopy);}
+    .btn-cream{background:var(--cream);color:var(--forest);}
+    .btn-cream:hover{background:white;}
+    .article-hero{padding-top:64px;background:linear-gradient(160deg,rgba(26,58,42,0.88),rgba(45,90,61,0.82)),url('images/money-illusion.jpg') center center/cover no-repeat;min-height:340px;display:flex;align-items:flex-end;}
+    .article-hero-inner{max-width:760px;margin:0 auto;padding:3rem 5%;width:100%;}
+    .cat-tag{font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.25rem 0.75rem;border-radius:20px;background:rgba(106,170,130,0.25);color:var(--moss);border:1px solid rgba(106,170,130,0.4);}
+    .article-date{font-size:0.8rem;color:rgba(244,240,230,0.6);margin-left:0.75rem;}
+    .article-hero h1{font-family:var(--font-display);font-size:clamp(1.6rem,4vw,2.4rem);color:var(--cream);line-height:1.2;margin:1rem 0 0.5rem;}
+    .article-hero .subtitle{font-size:1rem;color:rgba(244,240,230,0.75);font-style:italic;}
+    .article-source{font-size:0.75rem;color:rgba(244,240,230,0.4);margin-top:0.75rem;}
+    .back-nav{max-width:760px;margin:0 auto;padding:1.5rem 5% 0;}
+    .back-link{font-size:0.85rem;color:var(--fern);text-decoration:none;}
+    .back-link:hover{color:var(--canopy);}
+    .article-body{max-width:760px;margin:0 auto;padding:2.5rem 5%;}
+    .article-body h2{font-family:var(--font-display);font-size:1.4rem;color:var(--forest);margin:2.5rem 0 0.75rem;}
+    .article-body h3{font-family:var(--font-display);font-size:1.15rem;color:var(--canopy);margin:1.75rem 0 0.5rem;}
+    .article-body p{margin-bottom:1.25rem;font-size:1rem;line-height:1.8;}
+    .article-body strong{color:var(--forest);}
+    .article-body blockquote{border-left:3px solid var(--moss);padding:1rem 1.5rem;margin:2rem 0;background:rgba(106,170,130,0.06);border-radius:0 var(--radius) var(--radius) 0;font-style:italic;color:var(--text-mid);}
+    .article-body ul,.article-body ol{padding-left:1.5rem;margin-bottom:1.25rem;}
+    .article-body li{margin-bottom:0.5rem;}
+    .article-body hr{border:none;border-top:1px solid rgba(74,124,94,0.15);margin:2.5rem 0;}
+    .tldr{background:rgba(74,124,94,0.07);border:1px solid rgba(74,124,94,0.2);border-radius:var(--radius);padding:1.5rem;margin-bottom:2rem;}
+    .tldr-label{font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--fern);display:block;margin-bottom:0.5rem;}
+    .article-cta{background:linear-gradient(135deg,var(--forest),var(--canopy));border-radius:16px;padding:2.5rem;text-align:center;margin:3rem 5%;}
+    .article-cta p{color:rgba(244,240,230,0.8);margin-bottom:1.25rem;font-size:0.95rem;}
+    footer{background:var(--forest);color:rgba(244,240,230,0.6);text-align:center;padding:2rem 5%;font-size:0.8rem;margin-top:0;}
+    footer a{color:var(--moss);text-decoration:none;}
+    @media(max-width:600px){.nav-links{display:none;}}
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-logo">123<span>-AI</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html#services">Services</a></li>
+      <li><a href="index.html#process">How It Works</a></li>
+      <li><a href="blog.html">Blog</a></li>
+    </ul>
+    <a href="index.html#contact" class="btn btn-primary">Book a Free Call</a>
+  </nav>
+
+  <div class="article-hero">
+    <div class="article-hero-inner">
+      <span class="cat-tag">Digital Money</span><span class="article-date">November 2022</span>
+      <h1>The Great Money Illusion</h1>
+      <p class="subtitle">…and why you should care about cash and digital cash</p>
+      <p class="article-source">Originally published on Blockstrata.co · Bruce Milligan</p>
+    </div>
+  </div>
+
+  <div class="back-nav"><a href="blog.html" class="back-link">← Back to Blog</a></div>
+
+  <article class="article-body">
+<h2>What is Money?</h2>
+<p>It seems at first to be a simple enough question. A Google search or two later, and you will have a multitude of not-so-simple answers. It won't be long before you are contemplating Cowrie shells, Rai stones and the evolution of the banknote.</p>
+<p>We can get to a working definition if we start from understanding 'modern money' — the money we all typically know and use: government-issued currency.</p>
+<p><strong>Our understanding of money typically forms more by a slow hypnosis from childhood than by way of structured learning.</strong> Unpicking that puzzle in our minds is a huge challenge, requiring the shedding of deeply held beliefs.</p>
+<blockquote>"I sometimes get the feeling that if you look into the concept of money with too much scrutiny, it will simply disintegrate. Money is a bit like language: you are born in a given system, you grow up using it but you seldom have any incentive to speculate on its essence." — Brett Scott, Cloud-Money</blockquote>
+<hr>
+<h2>War on Cash</h2>
+<p>Recently, there has been much debate about a global 'War on Cash'. Cash has been marketed as 'outdated', a hygiene risk, and used for terrorist financing. The Covid saga expedited this story significantly.</p>
+<p>But this is a very one-sided view. Cash protects privacy and is resilient in the face of natural disasters or banking failures. The lack of privacy that comes with digital money leads to a better environment for automated financial controls — billions of people becoming further locked into surveillance, their data extracted and exploited.</p>
+<p><strong>Cash is a weapon against this.</strong></p>
+<hr>
+<h2>Why Cash?</h2>
+<p>Physical cash — notes and coins — is the only 'real' money we have direct access to. The moment it is deposited into a bank, it becomes an IOU, a balance sheet entry as a 'liability'. Fractional reserve banking ensures your deposit serves as collateral for lending by the bank.</p>
+<hr>
+<h2>Money and Blockchain — A Useful Comparison</h2>
+<p>In the blockchain world, there is the concept of 'Layers' of settlement. Layer 1 blockchains like Ethereum are expensive and offer premium security. Layer 2s periodically settle on the L1s. The banking world is not dissimilar — central banks, commercial banks, then payment processors like Visa and Mastercard settling via Layer 2.</p>
+<p>In this model, cash could be a Layer 2 of its own — enabling peer-to-peer transactions with optional privacy, something increasingly difficult to achieve in the digital world.</p>
+<hr>
+<h2>Digital Cash: Alternatives</h2>
+<p>The two key players — cryptocurrency and Central Bank Digital Currencies (CBDCs) — have both so far failed the test. Cryptocurrencies remain either pseudo-banking stablecoins or proxy tokens for the US dollar. CBDCs are far more likely to bend to temptation and be used for monetary control and surveillance.</p>
+<hr>
+<h2>Closing Thoughts</h2>
+<p>If you take away nothing more from this piece than the thought that perhaps, just maybe, cash is worth saving, then it was time well spent. Cash is the only real government money we have access to, offers unique privacy features, and provides a critical backup in the face of natural disasters, bank runs and cyber attacks.</p>
+</article>
+
+  <div class="article-cta">
+    <p>Interested in how AI, automation and digital money intersect with your business?</p>
+    <a href="index.html#contact" class="btn btn-cream">Book a Free Call</a>
+  </div>
+
+  <footer>
+    <p>© 2026 123-AI Ltd · <a href="blog.html">Blog</a> · <a href="mailto:hello@123-ai.co.uk">hello@123-ai.co.uk</a></p>
+  </footer>
+</body>
+</html>

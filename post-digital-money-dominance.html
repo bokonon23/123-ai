@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Race for Digital Money Dominance — 123-AI Blog</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {--forest:#1a3a2a;--canopy:#2d5a3d;--fern:#4a7c5e;--moss:#6aaa82;--cream:#f4f0e6;--warm-white:#faf8f3;--text-dark:#1a2a1f;--text-mid:#3d5a45;--font-display:'Playfair Display',Georgia,serif;--font-body:'Lato',system-ui,sans-serif;--radius:10px;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:var(--font-body);background:var(--warm-white);color:var(--text-dark);line-height:1.7;}
+    nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(250,248,243,0.96);backdrop-filter:blur(8px);border-bottom:1px solid rgba(74,124,94,0.12);padding:0 5%;height:64px;display:flex;align-items:center;justify-content:space-between;}
+    .nav-logo{font-family:var(--font-display);font-size:1.2rem;font-weight:700;color:var(--forest);text-decoration:none;}
+    .nav-logo span{color:var(--fern);font-style:italic;}
+    .nav-links{display:flex;align-items:center;gap:2rem;list-style:none;}
+    .nav-links a{font-size:0.875rem;color:var(--text-mid);text-decoration:none;transition:color 0.2s;}
+    .nav-links a:hover{color:var(--canopy);}
+    .btn{display:inline-block;padding:0.6rem 1.4rem;border-radius:var(--radius);font-family:var(--font-body);font-size:0.875rem;font-weight:700;text-decoration:none;cursor:pointer;border:none;transition:all 0.2s;}
+    .btn-primary{background:var(--forest);color:var(--cream);}
+    .btn-primary:hover{background:var(--canopy);}
+    .btn-cream{background:var(--cream);color:var(--forest);}
+    .btn-cream:hover{background:white;}
+    .article-hero{padding-top:64px;background:linear-gradient(160deg,rgba(26,58,42,0.88),rgba(45,90,61,0.82)),url('images/digital-money-dominance.jpg') center center/cover no-repeat;min-height:340px;display:flex;align-items:flex-end;}
+    .article-hero-inner{max-width:760px;margin:0 auto;padding:3rem 5%;width:100%;}
+    .cat-tag{font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.25rem 0.75rem;border-radius:20px;background:rgba(106,170,130,0.25);color:var(--moss);border:1px solid rgba(106,170,130,0.4);}
+    .article-date{font-size:0.8rem;color:rgba(244,240,230,0.6);margin-left:0.75rem;}
+    .article-hero h1{font-family:var(--font-display);font-size:clamp(1.6rem,4vw,2.4rem);color:var(--cream);line-height:1.2;margin:1rem 0 0.5rem;}
+    .article-hero .subtitle{font-size:1rem;color:rgba(244,240,230,0.75);font-style:italic;}
+    .article-source{font-size:0.75rem;color:rgba(244,240,230,0.4);margin-top:0.75rem;}
+    .back-nav{max-width:760px;margin:0 auto;padding:1.5rem 5% 0;}
+    .back-link{font-size:0.85rem;color:var(--fern);text-decoration:none;}
+    .back-link:hover{color:var(--canopy);}
+    .article-body{max-width:760px;margin:0 auto;padding:2.5rem 5%;}
+    .article-body h2{font-family:var(--font-display);font-size:1.4rem;color:var(--forest);margin:2.5rem 0 0.75rem;}
+    .article-body h3{font-family:var(--font-display);font-size:1.15rem;color:var(--canopy);margin:1.75rem 0 0.5rem;}
+    .article-body p{margin-bottom:1.25rem;font-size:1rem;line-height:1.8;}
+    .article-body strong{color:var(--forest);}
+    .article-body blockquote{border-left:3px solid var(--moss);padding:1rem 1.5rem;margin:2rem 0;background:rgba(106,170,130,0.06);border-radius:0 var(--radius) var(--radius) 0;font-style:italic;color:var(--text-mid);}
+    .article-body ul,.article-body ol{padding-left:1.5rem;margin-bottom:1.25rem;}
+    .article-body li{margin-bottom:0.5rem;}
+    .article-body hr{border:none;border-top:1px solid rgba(74,124,94,0.15);margin:2.5rem 0;}
+    .tldr{background:rgba(74,124,94,0.07);border:1px solid rgba(74,124,94,0.2);border-radius:var(--radius);padding:1.5rem;margin-bottom:2rem;}
+    .tldr-label{font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--fern);display:block;margin-bottom:0.5rem;}
+    .article-cta{background:linear-gradient(135deg,var(--forest),var(--canopy));border-radius:16px;padding:2.5rem;text-align:center;margin:3rem 5%;}
+    .article-cta p{color:rgba(244,240,230,0.8);margin-bottom:1.25rem;font-size:0.95rem;}
+    footer{background:var(--forest);color:rgba(244,240,230,0.6);text-align:center;padding:2rem 5%;font-size:0.8rem;margin-top:0;}
+    footer a{color:var(--moss);text-decoration:none;}
+    @media(max-width:600px){.nav-links{display:none;}}
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-logo">123<span>-AI</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html#services">Services</a></li>
+      <li><a href="index.html#process">How It Works</a></li>
+      <li><a href="blog.html">Blog</a></li>
+    </ul>
+    <a href="index.html#contact" class="btn btn-primary">Book a Free Call</a>
+  </nav>
+
+  <div class="article-hero">
+    <div class="article-hero-inner">
+      <span class="cat-tag">Digital Money</span><span class="article-date">October 2024</span>
+      <h1>The Race for Digital Money Dominance</h1>
+      <p class="subtitle">Stablecoins, CBDCs, and the self-custodied future</p>
+      <p class="article-source">Originally published on Blockstrata.co · Bruce Milligan</p>
+    </div>
+  </div>
+
+  <div class="back-nav"><a href="blog.html" class="back-link">← Back to Blog</a></div>
+
+  <article class="article-body">
+<p>Digital money represents a transformative shift in how we perceive and use currency. Unlike traditional forms tied to physical assets and government backing, digital money exists purely in electronic form — driven by advancements in blockchain technology.</p>
+<p>A noteworthy aspect of the current landscape: approximately 99% of stablecoin volume is denominated in dollars, effectively solidifying the US dollar's status as the de facto digital currency for global transactions.</p>
+<hr>
+<h2>The Landscape of Digital Money</h2>
+<p><strong>Cryptocurrencies</strong> are decentralised digital assets built on blockchain technology, allowing peer-to-peer transactions without central oversight. Bitcoin, Ethereum, and countless altcoins exemplify this category.</p>
+<p><strong>Central Bank Digital Currencies (CBDCs)</strong> are digital currencies backed by government entities. Countries like China, Sweden, and the Bahamas have already begun piloting or implementing their CBDCs.</p>
+<hr>
+<h2>The Case for Self-Custodied Money</h2>
+<p>Self-custodied money refers to digital currency that individuals manage and control directly, without relying on intermediaries such as banks or payment processors.</p>
+<ul>
+<li><strong>Autonomy:</strong> Direct control over funds, eliminating third-party restrictions or delays</li>
+<li><strong>Privacy:</strong> Facilitates anonymous exchanges, protecting users from the surveillance often associated with traditional banking</li>
+<li><strong>Speed:</strong> Enables instant transactions — increasingly vital for AI-powered applications and real-time automation</li>
+</ul>
+<hr>
+<h2>The Role of AI in Digital Transactions</h2>
+<p>Smart contracts are self-executing contracts with terms written directly into code, automating various processes. In a real estate transaction, a smart contract could manage the transfer of funds and ownership once predefined conditions are met.</p>
+<p>AI agents can analyse market conditions, assess risks, and make decisions on behalf of users — autonomously buying or selling assets using self-custodied funds. This isn't science fiction; it's already happening.</p>
+<hr>
+<h2>Cryptocurrency vs. CBDCs</h2>
+<p>Cryptocurrencies offer decentralisation and censorship resistance, encouraging rapid innovation. But they face regulatory hurdles and trust issues that complicate mainstream acceptance.</p>
+<p>CBDCs face their own challenges around implementation infrastructure, cybersecurity, and public trust concerns around surveillance and data misuse.</p>
+<hr>
+<h2>Predictions for the Evolving Landscape</h2>
+<p>The most likely future is coexistence — users choosing between self-custodied crypto for autonomy and CBDCs for everyday stability. This diversity could create a more resilient financial system overall.</p>
+<p>Self-custodied digital money is poised to emerge as a dominant force — particularly as AI-to-AI transactions become an increasingly real use case for borderless, programmable money. The businesses that understand this early will have a significant advantage.</p>
+</article>
+
+  <div class="article-cta">
+    <p>Interested in how AI, automation and digital money intersect with your business?</p>
+    <a href="index.html#contact" class="btn btn-cream">Book a Free Call</a>
+  </div>
+
+  <footer>
+    <p>© 2026 123-AI Ltd · <a href="blog.html">Blog</a> · <a href="mailto:hello@123-ai.co.uk">hello@123-ai.co.uk</a></p>
+  </footer>
+</body>
+</html>
