@@ -204,7 +204,7 @@
       box-shadow: var(--shadow-lg);
     }
     .post-featured-visual {
-      background: linear-gradient(145deg, var(--forest), var(--canopy));
+      background: linear-gradient(145deg, rgba(26,58,42,0.5), rgba(45,90,61,0.4)), url('images/money-illusion.jpg') center center / cover no-repeat;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -396,15 +396,19 @@
       border-color: rgba(74,124,94,0.25);
       transform: translateX(4px);
     }
-    .archive-num {
-      font-family: var(--font-display);
-      font-size: 2rem;
-      font-weight: 700;
-      color: rgba(74,124,94,0.15);
-      line-height: 1;
+    .archive-thumb {
+      width: 80px;
+      height: 80px;
+      border-radius: 10px;
       flex-shrink: 0;
-      min-width: 2.5rem;
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
     }
+    .archive-thumb-01 { background-image: url('images/internet-money.jpg'); }
+    .archive-thumb-02 { background-image: url('images/digital-money-dominance.jpg'); }
+    .archive-thumb-03 { background-image: url('images/zk-primer.jpg'); }
+    .archive-thumb-04 { background-image: url('images/money-illusion.jpg'); }
     .archive-card-content h4 {
       font-family: var(--font-display);
       font-size: 0.975rem;
@@ -497,6 +501,18 @@
       background: linear-gradient(145deg, var(--forest), var(--canopy));
       padding: 3rem 3rem 2.5rem;
       position: relative;
+    }
+    .article-panel-header.img-money-illusion {
+      background: linear-gradient(145deg, rgba(26,58,42,0.88), rgba(45,90,61,0.85)), url('images/money-illusion.jpg') center center / cover no-repeat;
+    }
+    .article-panel-header.img-internet-money {
+      background: linear-gradient(145deg, rgba(26,58,42,0.88), rgba(45,90,61,0.85)), url('images/internet-money.jpg') center center / cover no-repeat;
+    }
+    .article-panel-header.img-digital-money {
+      background: linear-gradient(145deg, rgba(26,58,42,0.88), rgba(45,90,61,0.85)), url('images/digital-money-dominance.jpg') center center / cover no-repeat;
+    }
+    .article-panel-header.img-zk-primer {
+      background: linear-gradient(145deg, rgba(26,58,42,0.88), rgba(45,90,61,0.85)), url('images/zk-primer.jpg') center center / cover no-repeat;
     }
     .article-close {
       position: absolute;
@@ -670,7 +686,6 @@
     <!-- FEATURED POST -->
     <div class="post-featured fade-up" onclick="openArticle('money-illusion')">
       <div class="post-featured-visual">
-        <span class="post-featured-emoji">💰</span>
       </div>
       <div class="post-featured-body">
         <div class="post-meta">
@@ -733,7 +748,7 @@
 
     <div class="archive-grid">
       <div class="archive-card fade-up" onclick="openArticle('money-internet')">
-        <div class="archive-num">01</div>
+        <div class="archive-thumb archive-thumb-01"></div>
         <div class="archive-card-content">
           <div class="post-meta" style="margin-bottom:0.5rem;">
             <span class="post-category cat-money">Digital Money</span>
@@ -746,7 +761,7 @@
       </div>
 
       <div class="archive-card fade-up" onclick="openArticle('digital-money')">
-        <div class="archive-num">02</div>
+        <div class="archive-thumb archive-thumb-02"></div>
         <div class="archive-card-content">
           <div class="post-meta" style="margin-bottom:0.5rem;">
             <span class="post-category cat-money">Digital Money</span>
@@ -759,7 +774,7 @@
       </div>
 
       <div class="archive-card fade-up" onclick="openArticle('zk-primer')">
-        <div class="archive-num">03</div>
+        <div class="archive-thumb archive-thumb-03"></div>
         <div class="archive-card-content">
           <div class="post-meta" style="margin-bottom:0.5rem;">
             <span class="post-category cat-tech">Technology</span>
@@ -772,7 +787,7 @@
       </div>
 
       <div class="archive-card fade-up" onclick="openArticle('money-illusion')">
-        <div class="archive-num">04</div>
+        <div class="archive-thumb archive-thumb-04"></div>
         <div class="archive-card-content">
           <div class="post-meta" style="margin-bottom:0.5rem;">
             <span class="post-category cat-thinking">Thinking</span>
@@ -804,7 +819,7 @@
   <!-- MONEY ILLUSION -->
   <div class="article-overlay" id="article-money-illusion">
     <div class="article-panel">
-      <div class="article-panel-header">
+      <div class="article-panel-header img-money-illusion">
         <button class="article-close" onclick="closeArticle('money-illusion')">✕</button>
         <div class="post-meta">
           <span class="post-category cat-money">Digital Money</span>
@@ -841,7 +856,7 @@
   <!-- MONEY OF THE INTERNET -->
   <div class="article-overlay" id="article-money-internet">
     <div class="article-panel">
-      <div class="article-panel-header">
+      <div class="article-panel-header img-internet-money">
         <button class="article-close" onclick="closeArticle('money-internet')">✕</button>
         <div class="post-meta">
           <span class="post-category cat-money">Digital Money</span>
@@ -874,7 +889,7 @@
   <!-- DIGITAL MONEY DOMINANCE -->
   <div class="article-overlay" id="article-digital-money">
     <div class="article-panel">
-      <div class="article-panel-header">
+      <div class="article-panel-header img-digital-money">
         <button class="article-close" onclick="closeArticle('digital-money')">✕</button>
         <div class="post-meta">
           <span class="post-category cat-money">Digital Money</span>
@@ -905,7 +920,7 @@
   <!-- ZK PRIMER -->
   <div class="article-overlay" id="article-zk-primer">
     <div class="article-panel">
-      <div class="article-panel-header">
+      <div class="article-panel-header img-zk-primer">
         <button class="article-close" onclick="closeArticle('zk-primer')">✕</button>
         <div class="post-meta">
           <span class="post-category cat-tech">Technology</span>
@@ -946,11 +961,11 @@
       </ul>
     </div>
     <div class="footer-inner footer-copy">
-      © 2025 123-AI Ltd · Registered in England & Wales · hello@123-ai.co.uk
+      © 2025 123-AI Ltd · Registered in England & Wales · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dfb7bab3b3b09feeedecf2beb6f1bcb0f1aab4">[email&#160;protected]</a>
     </div>
   </footer>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // Nav scroll
     const nav = document.getElementById('main-nav');
     window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20));
@@ -990,13 +1005,4 @@
     });
     // Close on Escape
     document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') {
-        document.querySelectorAll('.article-overlay.open').forEach(o => {
-          o.classList.remove('open');
-          document.body.style.overflow = '';
-        });
-      }
-    });
-  </script>
-</body>
-</html>
+      if (e.key 

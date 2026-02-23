@@ -185,7 +185,7 @@
       min-height: 100vh;
       display: flex;
       align-items: center;
-      background: linear-gradient(145deg, var(--forest) 0%, var(--canopy) 55%, #3d7a52 100%);
+      background: linear-gradient(145deg, rgba(26,58,42,0.88) 0%, rgba(45,90,61,0.82) 55%, rgba(61,122,82,0.78) 100%), url('images/hero-bg.jpg') center center / cover no-repeat;
       overflow: hidden;
       padding-top: 72px;
     }
@@ -402,7 +402,7 @@
        ETHOS STRIP
     ============================================= */
     #ethos {
-      background: var(--forest);
+      background: linear-gradient(to right, rgba(26,58,42,0.96) 0%, rgba(26,58,42,0.85) 100%), url('images/boardwalk-sea.jpg') center center / cover no-repeat;
       overflow: hidden;
     }
     .ethos-inner {
@@ -645,7 +645,7 @@
     }
     .who-card.light { background: var(--cream); }
     .who-card.dark {
-      background: var(--forest);
+      background: linear-gradient(rgba(26,58,42,0.85), rgba(26,58,42,0.92)), url('images/restaurant-terrace.jpg') center center / cover no-repeat;
     }
     .who-card.dark h3 { color: var(--cream); }
     .who-card.dark p { color: rgba(244,240,230,0.7); }
@@ -700,7 +700,7 @@
        TESTIMONIAL / MANIFESTO BANNER
     ============================================= */
     #manifesto {
-      background: linear-gradient(160deg, var(--canopy) 0%, var(--forest) 100%);
+      background: linear-gradient(160deg, rgba(45,90,61,0.92) 0%, rgba(26,58,42,0.95) 100%), url('images/walk-path.jpg') center 40% / cover no-repeat;
       overflow: hidden;
     }
     .manifesto-inner {
@@ -869,7 +869,7 @@
       grid-template-columns: 1fr auto;
       gap: 3rem;
       align-items: center;
-      background: linear-gradient(135deg, var(--forest) 0%, var(--canopy) 100%);
+      background: linear-gradient(135deg, rgba(26,58,42,0.92) 0%, rgba(45,90,61,0.88) 100%), url('images/balloons-sunrise.jpg') center center / cover no-repeat;
       border-radius: 20px;
       overflow: hidden;
       position: relative;
@@ -1344,23 +1344,16 @@
         <li><a href="#process">Process</a></li>
         <li><a href="#faq">FAQs</a></li>
         <li><a href="blog.html">Blog</a></li>
-        <li><a href="mailto:hello@123-ai.co.uk">Contact</a></li>
+        <li><a href="/cdn-cgi/l/email-protection#fa929f969695bacbc8c9d79b93d49995d48f91">Contact</a></li>
       </ul>
     </div>
     <div class="footer-inner footer-copy">
-      © 2025 123-AI Ltd · Registered in England & Wales · hello@123-ai.co.uk
+      © 2025 123-AI Ltd · Registered in England & Wales · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9ef6fbf2f2f1deafacadb3fff7b0fdf1b0ebf5">[email&#160;protected]</a>
     </div>
   </footer>
 
   <!-- ============== JS ============== -->
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // Nav scroll effect
     const nav = document.getElementById('main-nav');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 20);
-    });
-
-    // Scroll-reveal
-    const fadeEls = document.querySelectorAll('.fade-up');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersec
+    window.addEventListener('scr
