@@ -205,7 +205,7 @@
       box-shadow: var(--shadow-lg);
     }
     .post-featured-visual {
-      background: linear-gradient(145deg, rgba(26,58,42,0.5), rgba(45,90,61,0.4)), url('images/money-illusion.jpg') center center / cover no-repeat;
+      background: var(--forest) linear-gradient(145deg, rgba(26,58,42,0.6), rgba(45,90,61,0.5)), url('images/money-illusion.jpg') center center / cover no-repeat;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -687,6 +687,10 @@
     <!-- FEATURED POST -->
     <div class="post-featured fade-up" onclick="location.href='post-money-illusion.html'" style="cursor:pointer;">
       <div class="post-featured-visual">
+        <div style="text-align:center; position:relative; z-index:1;">
+          <div style="font-size:4rem; margin-bottom:0.5rem; filter:drop-shadow(0 4px 12px rgba(0,0,0,0.3));">💰</div>
+          <div style="font-family:var(--font-display); color:rgba(244,240,230,0.7); font-size:0.8rem; letter-spacing:0.1em; text-transform:uppercase;">Digital Money</div>
+        </div>
       </div>
       <div class="post-featured-body">
         <div class="post-meta">
@@ -722,7 +726,7 @@
           <div class="post-meta">
             <span class="post-category cat-ai">AI & Automation</span>
           </div>
-          <h3>Coming Soon: 5 Automations Every Solo Trader Should Set Up First</h3>
+          <h3>Coming Soon: The 5 Automations Every Solo Trader Should Set Up First</h3>
           <p>Before you go deep on AI strategy, nail these five basics. They'll free up 3–5 hours per week and cost almost nothing.</p>
           <span class="post-read-time">Coming soon</span>
         </div>
