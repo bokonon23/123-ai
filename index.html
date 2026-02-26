@@ -469,6 +469,156 @@
     }
 
     /* =============================================
+       CASE STUDY / DEMO
+    ============================================= */
+    #demo {
+      background: var(--cream);
+    }
+    .demo-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 5rem 5%;
+    }
+    .demo-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: end;
+      margin-bottom: 3.5rem;
+    }
+    .demo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(196,146,58,0.12);
+      border: 1px solid rgba(196,146,58,0.3);
+      color: var(--gold);
+      padding: 0.4rem 1rem;
+      border-radius: 100px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .demo-flow {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      gap: 0;
+      align-items: center;
+      margin-bottom: 3rem;
+      background: var(--warm-white);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(74,124,94,0.12);
+      padding: 2.5rem 2rem;
+    }
+    .demo-flow-step {
+      text-align: center;
+      padding: 1rem;
+    }
+    .demo-flow-icon {
+      font-size: 2.2rem;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+    .demo-flow-step h4 {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      color: var(--forest);
+      margin-bottom: 0.4rem;
+    }
+    .demo-flow-step p {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      line-height: 1.5;
+    }
+    .demo-flow-arrow {
+      font-size: 1.5rem;
+      color: var(--moss);
+      opacity: 0.5;
+      text-align: center;
+    }
+    .demo-results {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+    .demo-result-stat {
+      background: var(--warm-white);
+      border: 1px solid rgba(74,124,94,0.12);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .demo-result-stat .big {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--canopy);
+      display: block;
+    }
+    .demo-result-stat .small {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .demo-detail {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .demo-detail-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .demo-detail-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius);
+      background: rgba(74,124,94,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .demo-detail-item h5 {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--forest);
+      margin-bottom: 0.25rem;
+    }
+    .demo-detail-item p {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+    .demo-cta-row {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      margin-top: 3rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid rgba(74,124,94,0.1);
+    }
+    .demo-cta-row p {
+      font-size: 0.9rem;
+      color: var(--text-mid);
+      flex: 1;
+    }
+    @media (max-width: 900px) {
+      .demo-header { grid-template-columns: 1fr; }
+      .demo-flow { grid-template-columns: 1fr; gap: 1rem; }
+      .demo-flow-arrow { transform: rotate(90deg); }
+      .demo-results { grid-template-columns: 1fr 1fr; }
+      .demo-detail { grid-template-columns: 1fr; }
+      .demo-cta-row { flex-direction: column; align-items: flex-start; }
+    }
+
+    /* =============================================
        SERVICES
     ============================================= */
     #services {
@@ -980,6 +1130,7 @@
   <nav id="main-nav">
     <div class="nav-logo">123<span class="accent">-AI</span></div>
     <ul class="nav-links">
+      <li><a href="#demo">Case Study</a></li>
       <li><a href="#services">Services</a></li>
       <li><a href="#process">How It Works</a></li>
       <li><a href="#who">Who It's For</a></li>
@@ -1034,12 +1185,12 @@
         </div>
         <div class="hero-stats">
           <div class="hero-stat">
-            <span class="num">80%</span>
-            <span class="label">of admin tasks automatable today</span>
+            <span class="num">&lt;30s</span>
+            <span class="label">from client enquiry to auto-reply</span>
           </div>
           <div class="hero-stat">
-            <span class="num">1–3</span>
-            <span class="label">hrs/day freed by smart automation</span>
+            <span class="num">2hrs</span>
+            <span class="label">to deploy a full back-office automation</span>
           </div>
         </div>
       </div>
@@ -1053,11 +1204,12 @@
       <div class="tools-list">
         <span class="tool-pill">Claude AI</span>
         <span class="tool-pill">ChatGPT</span>
+        <span class="tool-pill">Custom AI Agents</span>
+        <span class="tool-pill">Google Workspace</span>
+        <span class="tool-pill">GitHub</span>
         <span class="tool-pill">Make.com</span>
         <span class="tool-pill">Zapier</span>
         <span class="tool-pill">Notion</span>
-        <span class="tool-pill">n8n</span>
-        <span class="tool-pill">Google Workspace</span>
         <span class="tool-pill">Airtable</span>
       </div>
     </div>
@@ -1097,6 +1249,105 @@
             <p>We build systems that scale with you, not ones that create new dependencies. Real efficiency, without the overwhelm.</p>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== CASE STUDY ============== -->
+  <section id="demo">
+    <div class="demo-inner">
+      <div class="demo-header">
+        <div>
+          <div class="demo-badge">⚡ Live Case Study</div>
+          <h2 class="section-title">Watch the agent <em>work</em></h2>
+          <p class="section-intro">A real mortgage broker back office — email handling, case tracking, client updates and chase reminders — running autonomously on Google Workspace. No new software. No logins. Just automation.</p>
+        </div>
+        <div>
+          <p style="font-size:0.9rem;color:var(--text-mid);line-height:1.8;margin-bottom:1.5rem;">A new client enquiry lands in the inbox. Within seconds the agent has acknowledged the client, created a case file, organised a Drive folder and logged everything in the pipeline tracker. The broker never touched it.</p>
+          <a href="#contact" class="btn btn-primary">See This For Your Business</a>
+        </div>
+      </div>
+
+      <!-- Flow diagram -->
+      <div class="demo-flow">
+        <div class="demo-flow-step">
+          <span class="demo-flow-icon">📧</span>
+          <h4>Client Enquiry</h4>
+          <p>Email arrives in Gmail inbox</p>
+        </div>
+        <div class="demo-flow-arrow">→</div>
+        <div class="demo-flow-step">
+          <span class="demo-flow-icon">🤖</span>
+          <h4>AI Agent Reads & Extracts</h4>
+          <p>Name, contact, loan type, property value, deposit</p>
+        </div>
+        <div class="demo-flow-arrow">→</div>
+        <div class="demo-flow-step">
+          <span class="demo-flow-icon">⚡</span>
+          <h4>Three Things Happen Instantly</h4>
+          <p>
+            📊 Case added to pipeline sheet<br>
+            📁 Client Drive folder created<br>
+            ✉️ Personalised acknowledgement sent
+          </p>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="demo-results">
+        <div class="demo-result-stat">
+          <span class="big">&lt; 30s</span>
+          <span class="small">From enquiry to acknowledgement</span>
+        </div>
+        <div class="demo-result-stat">
+          <span class="big">0</span>
+          <span class="small">Missed follow-ups with daily chase agent</span>
+        </div>
+        <div class="demo-result-stat">
+          <span class="big">5</span>
+          <span class="small">Stage-triggered emails sent automatically</span>
+        </div>
+        <div class="demo-result-stat">
+          <span class="big">8am</span>
+          <span class="small">Daily chase runs — broker wakes to a clean pipeline</span>
+        </div>
+      </div>
+
+      <!-- Detail grid -->
+      <div class="demo-detail">
+        <div class="demo-detail-item">
+          <div class="demo-detail-icon">📊</div>
+          <div>
+            <h5>Pipeline Tracker (Google Sheets)</h5>
+            <p>Every case logged with client details, stage, lender, last action and next chase date. Updated automatically as cases progress.</p>
+          </div>
+        </div>
+        <div class="demo-detail-item">
+          <div class="demo-detail-icon">📁</div>
+          <div>
+            <h5>Per-Client Drive Folders</h5>
+            <p>One folder per client, auto-created and named on intake. Documents, correspondence and notes all in one place from day one.</p>
+          </div>
+        </div>
+        <div class="demo-detail-item">
+          <div class="demo-detail-icon">✉️</div>
+          <div>
+            <h5>Stage-Triggered Emails</h5>
+            <p>Client updates fire automatically at each milestone: submitted, awaiting decision, offer received, completed. The broker approves the templates once.</p>
+          </div>
+        </div>
+        <div class="demo-detail-item">
+          <div class="demo-detail-icon">⏰</div>
+          <div>
+            <h5>Daily Chase Agent</h5>
+            <p>Scans the pipeline every weekday morning. Lenders get chased after 3 days silence. Clients get nudged after 5. Nothing slips through the cracks.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-cta-row">
+        <p>This was built and deployed in under 2 hours, using only Gmail, Google Sheets and Google Drive — tools the broker already had. No new subscriptions, no migration, no training.</p>
+        <a href="#contact" class="btn btn-primary btn-lg">Book a Free Demo</a>
       </div>
     </div>
   </section>
@@ -1321,8 +1572,8 @@
           <p>Book a free 30-minute discovery call. No hard sell, no jargon — just an honest conversation about where AI can genuinely help your business.</p>
         </div>
         <div class="cta-actions" id="contact">
-          <a href="/cdn-cgi/l/email-protection#462e232a2a29067774756b272f68252968332d" class="btn btn-cream btn-lg">Book a Free Call</a>
-          <a href="/cdn-cgi/l/email-protection#b4dcd1d8d8dbf485868799d5dd9ad7db9ac1df" style="font-size:0.8rem; color:rgba(244,240,230,0.6); text-align:center;">or email <span class="__cf_email__" data-cfemail="d1b9b4bdbdbe91e0e3e2fcb0b8ffb2beffa4ba">[email&#160;protected]</span></a>
+          <a href="mailto:hello@123-ai.co.uk" class="btn btn-cream btn-lg">Book a Free Call</a>
+          <a href="mailto:hello@123-ai.co.uk" style="font-size:0.8rem; color:rgba(244,240,230,0.6); text-align:center;">or email hello@123-ai.co.uk</a>
         </div>
       </div>
     </div>
@@ -1337,7 +1588,7 @@
         <li><a href="#process">Process</a></li>
         <li><a href="#faq">FAQs</a></li>
         <li><a href="blog.html">Blog</a></li>
-        <li><a href="/cdn-cgi/l/email-protection#fa929f969695bacbc8c9d79b93d49995d48f91">Contact</a></li>
+        <li><a href="mailto:hello@123-ai.co.uk">Contact</a></li>
       </ul>
     </div>
     <div class="footer-inner footer-copy">
