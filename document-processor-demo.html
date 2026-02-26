@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document Processor Demo — 123-AI</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --forest: #1a3a2a; --canopy: #2d5a3d; --moss: #4a7c5e; --fern: #6aaa82;
+  --mist: #c8dfd0; --cream: #f4f0e6; --warm-white: #faf8f2;
+  --bark: #5c4a32; --earth: #8b6f4e; --gold: #c4923a;
+  --text-dark: #1e2820; --text-mid: #3d4f42; --text-light: #6b7d6f;
+  --radius: 4px; --radius-lg: 12px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Lato', sans-serif; background: var(--warm-white); color: var(--text-dark); line-height: 1.6; }
+h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+
+/* NAV */
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: var(--forest); padding: 0 40px; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--cream); text-decoration: none; }
+.nav-logo span { color: var(--gold); }
+.nav-links { display: flex; gap: 24px; align-items: center; }
+.nav-links a { color: var(--mist); text-decoration: none; font-size: 14px; font-weight: 400; transition: color 0.2s; }
+.nav-links a:hover { color: var(--gold); }
+.nav-cta { background: var(--gold); color: var(--forest); padding: 8px 20px; border-radius: var(--radius); font-weight: 700; font-size: 13px; text-decoration: none; transition: all 0.2s; }
+.nav-cta:hover { background: #d4a24a; color: var(--forest); }
+@media (max-width: 900px) { .nav { padding: 0 20px; } .nav-links { gap: 12px; } .nav-links a:not(.nav-cta) { display: none; } }
+
+/* HERO */
+.hero { background: linear-gradient(135deg, var(--forest) 0%, var(--canopy) 60%, var(--moss) 100%); color: var(--cream); padding: 140px 40px 80px; text-align: center; position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(ellipse at 30% 50%, rgba(106,170,130,0.08) 0%, transparent 60%); pointer-events: none; }
+.hero-badge { display: inline-block; background: rgba(196,146,58,0.15); border: 1px solid rgba(196,146,58,0.3); color: var(--gold); padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 24px; }
+.hero h1 { font-size: 48px; line-height: 1.15; max-width: 700px; margin: 0 auto 20px; }
+.hero h1 em { font-style: italic; color: var(--gold); }
+.hero p { font-size: 18px; color: var(--mist); max-width: 580px; margin: 0 auto 32px; font-weight: 300; }
+.hero-stats { display: flex; gap: 40px; justify-content: center; margin-top: 40px; flex-wrap: wrap; }
+.hero-stat { text-align: center; }
+.hero-stat .num { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--gold); }
+.hero-stat .label { font-size: 12px; color: var(--mist); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+@media (max-width: 600px) { .hero { padding: 120px 20px 60px; } .hero h1 { font-size: 32px; } .hero-stats { gap: 24px; } }
+
+/* MAIN CONTAINER */
+.container { max-width: 1100px; margin: 0 auto; padding: 60px 40px; }
+@media (max-width: 600px) { .container { padding: 40px 20px; } }
+
+/* UPLOAD ZONE */
+.upload-zone { background: white; border: 2px dashed var(--mist); border-radius: var(--radius-lg); padding: 50px 40px; text-align: center; cursor: pointer; transition: all 0.3s; margin-bottom: 40px; }
+.upload-zone:hover, .upload-zone.dragover { border-color: var(--fern); background: rgba(200,223,208,0.1); }
+.upload-icon { width: 64px; height: 64px; background: var(--cream); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 28px; }
+.upload-zone h3 { font-size: 22px; color: var(--forest); margin-bottom: 8px; }
+.upload-zone p { color: var(--text-light); font-size: 15px; }
+.upload-zone input { display: none; }
+.demo-buttons { display: flex; gap: 12px; justify-content: center; margin-top: 24px; flex-wrap: wrap; }
+.demo-btn { background: var(--forest); color: var(--cream); border: none; padding: 12px 24px; border-radius: var(--radius); cursor: pointer; font-family: 'Lato', sans-serif; font-size: 14px; font-weight: 700; transition: all 0.2s; letter-spacing: 0.3px; }
+.demo-btn:hover { background: var(--canopy); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(26,58,42,0.2); }
+.demo-btn.featured { background: var(--gold); color: var(--forest); }
+.demo-btn.featured:hover { background: #d4a24a; }
+
+/* PROCESSING */
+.processing { display: none; text-align: center; padding: 60px 40px; background: white; border-radius: var(--radius-lg); margin-bottom: 40px; }
+.processing.active { display: block; }
+.spinner { width: 48px; height: 48px; border: 3px solid var(--mist); border-top-color: var(--fern); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 20px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.processing h3 { font-size: 20px; color: var(--forest); }
+.steps { margin-top: 24px; text-align: left; max-width: 380px; margin-left: auto; margin-right: auto; }
+.step { padding: 8px 0; font-size: 14px; color: var(--text-light); transition: all 0.3s; display: flex; align-items: center; gap: 12px; }
+.step.active { color: var(--forest); font-weight: 700; }
+.step.done { color: var(--fern); }
+.step-icon { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--mist); display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; font-weight: 700; }
+.step.active .step-icon { border-color: var(--fern); background: rgba(106,170,130,0.1); color: var(--fern); }
+.step.done .step-icon { border-color: var(--fern); background: var(--fern); color: white; }
+
+/* RESULTS */
+.results { display: none; }
+.results.active { display: block; }
+.section-title { font-size: 28px; color: var(--forest); margin-bottom: 24px; }
+.section-title em { color: var(--gold); font-style: italic; }
+.result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+@media (max-width: 768px) { .result-grid { grid-template-columns: 1fr; } }
+.card { background: white; border-radius: var(--radius-lg); padding: 28px; box-shadow: 0 2px 12px rgba(26,58,42,0.06); border: 1px solid rgba(200,223,208,0.3); }
+.card h3 { font-size: 16px; color: var(--forest); margin-bottom: 18px; display: flex; align-items: center; gap: 10px; font-family: 'Lato', sans-serif; font-weight: 700; }
+.card-icon { width: 32px; height: 32px; background: var(--cream); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+.field-row { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid rgba(200,223,208,0.3); font-size: 13.5px; align-items: center; }
+.field-row:last-child { border-bottom: none; }
+.field-label { color: var(--text-light); }
+.field-value { font-weight: 700; color: var(--text-dark); text-align: right; }
+.field-value.highlight { color: var(--canopy); }
+.field-value.warning { color: var(--earth); }
+.field-value.flag { color: #b54a32; }
+.full-width { grid-column: 1 / -1; }
+.tag { display: inline-block; padding: 2px 8px; border-radius: var(--radius); font-size: 11px; font-weight: 700; letter-spacing: 0.3px; }
+.tag.green { background: rgba(106,170,130,0.15); color: var(--canopy); }
+.tag.orange { background: rgba(196,146,58,0.15); color: var(--bark); }
+.tag.red { background: rgba(181,74,50,0.1); color: #b54a32; }
+.tag.blue { background: rgba(74,124,94,0.1); color: var(--moss); }
+.checklist-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(200,223,208,0.2); font-size: 13.5px; }
+.checklist-item:last-child { border-bottom: none; }
+.check { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; font-weight: 700; }
+.check.yes { background: rgba(106,170,130,0.15); color: var(--canopy); }
+.check.no { background: rgba(181,74,50,0.1); color: #b54a32; }
+.check.warn { background: rgba(196,146,58,0.15); color: var(--bark); }
+.ai-insight { background: linear-gradient(135deg, rgba(200,223,208,0.2), var(--cream)); border-left: 4px solid var(--gold); padding: 18px; border-radius: 0 var(--radius-lg) var(--radius-lg) 0; margin-top: 18px; font-size: 13.5px; line-height: 1.7; }
+.ai-insight strong { color: var(--forest); }
+.meter-container { margin: 14px 0; }
+.meter-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-light); margin-bottom: 6px; }
+.meter { height: 8px; background: var(--cream); border-radius: 4px; overflow: hidden; }
+.meter-fill { height: 100%; border-radius: 4px; }
+.affordability-bar { height: 28px; background: var(--cream); border-radius: 14px; overflow: hidden; margin: 10px 0; position: relative; }
+.affordability-fill { height: 100%; border-radius: 14px; transition: width 1s ease; }
+.affordability-label { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 11px; font-weight: 700; color: var(--text-dark); }
+.transaction-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px; }
+.transaction-table th { background: var(--cream); padding: 10px 12px; text-align: left; font-weight: 700; color: var(--text-light); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+.transaction-table td { padding: 9px 12px; border-bottom: 1px solid rgba(200,223,208,0.3); }
+.transaction-table tr.income td { background: rgba(106,170,130,0.04); }
+.amount-out { color: #b54a32; font-weight: 600; }
+.amount-in { color: var(--canopy); font-weight: 700; }
+
+/* ACTION BUTTONS */
+.action-bar { display: flex; gap: 14px; justify-content: center; margin-top: 32px; flex-wrap: wrap; }
+.action-btn { padding: 14px 28px; border-radius: var(--radius); border: none; font-family: 'Lato', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; letter-spacing: 0.3px; }
+.action-btn.primary { background: var(--gold); color: var(--forest); }
+.action-btn.primary:hover { background: #d4a24a; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(196,146,58,0.3); }
+.action-btn.secondary { background: white; color: var(--forest); border: 2px solid var(--forest); }
+.action-btn.secondary:hover { background: var(--cream); transform: translateY(-1px); }
+.reset-btn { display: block; margin: 40px auto; background: none; border: 2px solid var(--mist); color: var(--text-light); padding: 12px 28px; border-radius: var(--radius); cursor: pointer; font-family: 'Lato', sans-serif; font-size: 14px; font-weight: 700; transition: all 0.2s; }
+.reset-btn:hover { border-color: var(--moss); color: var(--forest); }
+
+/* HOW IT WORKS */
+.how-section { background: white; border-radius: var(--radius-lg); padding: 48px; margin-bottom: 48px; box-shadow: 0 2px 12px rgba(26,58,42,0.06); }
+.how-section h2 { font-size: 28px; color: var(--forest); margin-bottom: 12px; text-align: center; }
+.how-section > p { text-align: center; color: var(--text-light); margin-bottom: 36px; font-size: 15px; }
+.how-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+@media (max-width: 768px) { .how-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .how-grid { grid-template-columns: 1fr; } }
+.how-step { text-align: center; }
+.how-num { width: 40px; height: 40px; background: var(--cream); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; font-family: 'Playfair Display', serif; font-weight: 700; color: var(--forest); font-size: 16px; }
+.how-step h4 { font-family: 'Lato', sans-serif; font-weight: 700; font-size: 14px; color: var(--forest); margin-bottom: 6px; }
+.how-step p { font-size: 13px; color: var(--text-light); line-height: 1.5; }
+
+/* CTA STRIP */
+.cta-strip { background: var(--forest); color: var(--cream); padding: 60px 40px; text-align: center; border-radius: var(--radius-lg); margin-top: 48px; }
+.cta-strip h2 { font-size: 28px; margin-bottom: 12px; }
+.cta-strip p { color: var(--mist); margin-bottom: 24px; font-size: 16px; font-weight: 300; }
+.cta-strip a { background: var(--gold); color: var(--forest); padding: 14px 32px; border-radius: var(--radius); font-weight: 700; font-size: 15px; text-decoration: none; display: inline-block; transition: all 0.2s; }
+.cta-strip a:hover { background: #d4a24a; transform: translateY(-1px); }
+
+/* FOOTER */
+.footer { text-align: center; padding: 32px; color: var(--text-light); font-size: 13px; }
+.footer a { color: var(--moss); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="index.html" class="nav-logo">123<span>-AI</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="ai-showcase.html">AI Showcase</a>
+    <a href="blog.html">Blog</a>
+    <a href="index.html#services">Services</a>
+    <a href="mailto:hello@123-ai.co.uk" class="nav-cta">Book a Free Call</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Live Demo &middot; AI-Powered Document Processing</div>
+  <h1>Your clients upload documents. <em>AI does the rest.</em></h1>
+  <p>See how AI instantly extracts income, spending patterns, and mortgage-readiness data from payslips and bank statements&mdash;saving hours of manual work.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num">&lt; 10s</div><div class="label">Processing Time</div></div>
+    <div class="hero-stat"><div class="num">98%</div><div class="label">Extraction Accuracy</div></div>
+    <div class="hero-stat"><div class="num">15+</div><div class="label">Data Points Captured</div></div>
+    <div class="hero-stat"><div class="num">0</div><div class="label">Manual Data Entry</div></div>
+  </div>
+</section>
+
+<div class="container">
+
+  <!-- HOW IT WORKS -->
+  <div class="how-section">
+    <h2>How it works</h2>
+    <p>From document upload to mortgage-ready data in seconds, not hours.</p>
+    <div class="how-grid">
+      <div class="how-step">
+        <div class="how-num">1</div>
+        <h4>Client Uploads</h4>
+        <p>Payslips, bank statements, or ID documents&mdash;PDF, photo, or scan.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-num">2</div>
+        <h4>AI Extracts</h4>
+        <p>Income, employer, deductions, spending patterns, and committed outgoings are identified automatically.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-num">3</div>
+        <h4>Smart Flags</h4>
+        <p>Variable income, gambling activity, existing debt, and adverse patterns are flagged instantly.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-num">4</div>
+        <h4>Ready to Submit</h4>
+        <p>Pre-filled application data, affordability estimates, and missing document checklists&mdash;all in one place.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- UPLOAD ZONE -->
+  <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+    <div class="upload-icon">&#128196;</div>
+    <h3>Upload client documents</h3>
+    <p>Drop payslips, bank statements, or ID documents here &mdash; or try a demo below</p>
+    <input type="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png" multiple>
+    <div class="demo-buttons">
+      <button class="demo-btn" onclick="event.stopPropagation(); runDemo('payslip')">&#9654; Demo: Payslip</button>
+      <button class="demo-btn" onclick="event.stopPropagation(); runDemo('bankstatement')">&#9654; Demo: Bank Statement</button>
+      <button class="demo-btn featured" onclick="event.stopPropagation(); runDemo('both')">&#9654; Full Application Pack</button>
+    </div>
+  </div>
+
+  <!-- PROCESSING -->
+  <div class="processing" id="processing">
+    <div class="spinner"></div>
+    <h3>AI is analysing the documents&hellip;</h3>
+    <div class="steps">
+      <div class="step" id="step1"><div class="step-icon">1</div> Detecting document type</div>
+      <div class="step" id="step2"><div class="step-icon">2</div> Extracting text and tables</div>
+      <div class="step" id="step3"><div class="step-icon">3</div> Identifying key fields</div>
+      <div class="step" id="step4"><div class="step-icon">4</div> Cross-referencing data</div>
+      <div class="step" id="step5"><div class="step-icon">5</div> Running affordability checks</div>
+      <div class="step" id="step6"><div class="step-icon">6</div> Generating report</div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results" id="results">
+
+    <!-- PAYSLIP -->
+    <div id="payslipResults" style="display:none;">
+      <h2 class="section-title">Payslip Analysis &mdash; <em>James Robert Harrison</em></h2>
+      <div class="result-grid">
+        <div class="card">
+          <h3><div class="card-icon">&#128100;</div> Employee Details</h3>
+          <div class="field-row"><span class="field-label">Full Name</span><span class="field-value">James Robert Harrison</span></div>
+          <div class="field-row"><span class="field-label">Employer</span><span class="field-value">ACME Logistics Ltd</span></div>
+          <div class="field-row"><span class="field-label">Job Title</span><span class="field-value">Senior Warehouse Operative</span></div>
+          <div class="field-row"><span class="field-label">Employee No</span><span class="field-value">EMP-2847</span></div>
+          <div class="field-row"><span class="field-label">NI Number</span><span class="field-value">QQ 12 34 56 C</span></div>
+          <div class="field-row"><span class="field-label">Tax Code</span><span class="field-value">1257L <span class="tag blue">Standard</span></span></div>
+        </div>
+        <div class="card">
+          <h3><div class="card-icon">&#128176;</div> Income Summary</h3>
+          <div class="field-row"><span class="field-label">Basic Salary (monthly)</span><span class="field-value">&pound;3,000.00</span></div>
+          <div class="field-row"><span class="field-label">Basic Salary (annual)</span><span class="field-value highlight">&pound;36,000.00</span></div>
+          <div class="field-row"><span class="field-label">Overtime</span><span class="field-value">&pound;337.50 <span class="tag orange">Variable</span></span></div>
+          <div class="field-row"><span class="field-label">Weekend Premium</span><span class="field-value">&pound;300.00 <span class="tag orange">Variable</span></span></div>
+          <div class="field-row"><span class="field-label">Total Gross Pay</span><span class="field-value highlight">&pound;3,637.50</span></div>
+          <div class="field-row"><span class="field-label">Total Net Pay</span><span class="field-value highlight">&pound;2,788.94</span></div>
+        </div>
+        <div class="card">
+          <h3><div class="card-icon">&#128200;</div> Deductions Breakdown</h3>
+          <div class="field-row"><span class="field-label">Income Tax (PAYE)</span><span class="field-value">&pound;345.50</span></div>
+          <div class="field-row"><span class="field-label">National Insurance</span><span class="field-value">&pound;267.18</span></div>
+          <div class="field-row"><span class="field-label">Pension (5%)</span><span class="field-value">&pound;181.88</span></div>
+          <div class="field-row"><span class="field-label">Student Loan (Plan 2)</span><span class="field-value">&pound;54.00 <span class="tag blue">Plan 2</span></span></div>
+          <div class="field-row"><span class="field-label">Total Deductions</span><span class="field-value warning">&pound;848.56</span></div>
+          <div class="meter-container">
+            <div class="meter-label"><span>Deduction Rate</span><span>23.3%</span></div>
+            <div class="meter"><div class="meter-fill" style="width:23.3%; background: var(--gold);"></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <h3><div class="card-icon">&#9888;&#65039;</div> AI Flags &amp; Notes</h3>
+          <div class="checklist-item"><div class="check yes">&#10003;</div> Employer name matches Companies House records</div>
+          <div class="checklist-item"><div class="check yes">&#10003;</div> Tax code 1257L is standard for 2025/26</div>
+          <div class="checklist-item"><div class="check warn">!</div> Overtime income is variable &mdash; lenders may only use basic salary</div>
+          <div class="checklist-item"><div class="check warn">!</div> Student Loan Plan 2 detected &mdash; affects affordability</div>
+          <div class="checklist-item"><div class="check yes">&#10003;</div> Pension contribution within normal range</div>
+          <div class="ai-insight"><strong>AI Recommendation:</strong> Guaranteed annual income is <strong>&pound;36,000</strong>. Some lenders may consider overtime (&pound;337.50/mo avg) if 3+ months of payslips show a consistent pattern. Recommend requesting 2 additional payslips to evidence regular overtime.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BANK STATEMENT -->
+    <div id="bankResults" style="display:none;">
+      <h2 class="section-title">Bank Statement Analysis &mdash; <em>James Robert Harrison</em></h2>
+      <div class="result-grid">
+        <div class="card">
+          <h3><div class="card-icon">&#128179;</div> Account Overview</h3>
+          <div class="field-row"><span class="field-label">Account Holder</span><span class="field-value">Mr James R Harrison</span></div>
+          <div class="field-row"><span class="field-label">Bank</span><span class="field-value">Barclays</span></div>
+          <div class="field-row"><span class="field-label">Sort Code / Account</span><span class="field-value">20-45-67 / ****4821</span></div>
+          <div class="field-row"><span class="field-label">Statement Period</span><span class="field-value">01 &ndash; 31 Jan 2026</span></div>
+          <div class="field-row"><span class="field-label">Opening Balance</span><span class="field-value">&pound;4,215.33</span></div>
+          <div class="field-row"><span class="field-label">Closing Balance</span><span class="field-value highlight">&pound;4,613.63</span></div>
+        </div>
+        <div class="card">
+          <h3><div class="card-icon">&#128202;</div> Monthly Cash Flow</h3>
+          <div class="field-row"><span class="field-label">Total Income</span><span class="field-value highlight">&pound;2,833.94</span></div>
+          <div class="field-row"><span class="field-label">Total Outgoings</span><span class="field-value warning">&pound;2,435.64</span></div>
+          <div class="field-row"><span class="field-label">Net Cash Flow</span><span class="field-value highlight">+&pound;398.30</span></div>
+          <div class="affordability-bar">
+            <div class="affordability-fill" style="width: 85.9%; background: linear-gradient(90deg, var(--fern), var(--gold));"></div>
+            <div class="affordability-label">85.9% of income spent</div>
+          </div>
+          <div class="field-row"><span class="field-label">Disposable Income</span><span class="field-value">&pound;398.30/month</span></div>
+        </div>
+        <div class="card">
+          <h3><div class="card-icon">&#127968;</div> Committed Expenditure</h3>
+          <div class="field-row"><span class="field-label">Mortgage (Nationwide BS)</span><span class="field-value flag">&pound;1,245.00</span></div>
+          <div class="field-row"><span class="field-label">Council Tax</span><span class="field-value">&pound;156.00</span></div>
+          <div class="field-row"><span class="field-label">Car Insurance (Aviva)</span><span class="field-value">&pound;67.50</span></div>
+          <div class="field-row"><span class="field-label">Energy (British Gas)</span><span class="field-value">&pound;124.00</span></div>
+          <div class="field-row"><span class="field-label">Water (Yorkshire Water)</span><span class="field-value">&pound;42.00</span></div>
+          <div class="field-row"><span class="field-label">Sky TV</span><span class="field-value">&pound;45.00</span></div>
+          <div class="field-row"><span class="field-label">Mobile (O2)</span><span class="field-value">&pound;38.99</span></div>
+          <div class="field-row" style="border-top: 2px solid var(--forest); margin-top: 4px; padding-top: 10px;"><span class="field-label"><strong>Total Committed</strong></span><span class="field-value"><strong>&pound;1,718.49</strong></span></div>
+        </div>
+        <div class="card">
+          <h3><div class="card-icon">&#128269;</div> AI Pattern Detection</h3>
+          <div class="checklist-item"><div class="check yes">&#10003;</div> Salary credited on 28th &mdash; matches payslip employer</div>
+          <div class="checklist-item"><div class="check yes">&#10003;</div> &pound;200 regular savings transfer detected</div>
+          <div class="checklist-item"><div class="check yes">&#10003;</div> No returned direct debits or failed payments</div>
+          <div class="checklist-item"><div class="check yes">&#10003;</div> No gambling transactions detected</div>
+          <div class="checklist-item"><div class="check warn">!</div> Existing mortgage payment &pound;1,245 &mdash; remortgage?</div>
+          <div class="checklist-item"><div class="check yes">&#10003;</div> No payday loan or BNPL activity</div>
+          <div class="ai-insight"><strong>AI Observation:</strong> Client has an existing Nationwide mortgage (&pound;1,245/mo). If this is a remortgage, existing payment will be replaced. Regular &pound;200 savings transfer shows good financial discipline. No adverse spending patterns detected.</div>
+        </div>
+        <div class="card full-width">
+          <h3><div class="card-icon">&#128203;</div> Key Transactions</h3>
+          <table class="transaction-table">
+            <thead><tr><th>Date</th><th>Description</th><th>Category</th><th style="text-align:right">Amount</th></tr></thead>
+            <tbody>
+              <tr class="income"><td>28 Jan</td><td>ACME LOGISTICS LTD Salary</td><td><span class="tag green">Income</span></td><td class="amount-in" style="text-align:right">+&pound;2,788.94</td></tr>
+              <tr><td>05 Jan</td><td>Nationwide BS Mortgage</td><td><span class="tag red">Mortgage</span></td><td class="amount-out" style="text-align:right">-&pound;1,245.00</td></tr>
+              <tr><td>03 Jan</td><td>Stockport BC Council Tax</td><td><span class="tag orange">Housing</span></td><td class="amount-out" style="text-align:right">-&pound;156.00</td></tr>
+              <tr><td>25 Jan</td><td>British Gas Energy</td><td><span class="tag orange">Utilities</span></td><td class="amount-out" style="text-align:right">-&pound;124.00</td></tr>
+              <tr><td>10 Jan</td><td>J Harrison Savings</td><td><span class="tag blue">Savings</span></td><td class="amount-out" style="text-align:right">-&pound;200.00</td></tr>
+              <tr class="income"><td>20 Jan</td><td>Refund Argos</td><td><span class="tag green">Refund</span></td><td class="amount-in" style="text-align:right">+&pound;45.00</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMBINED -->
+    <div id="combinedResults" style="display:none;">
+      <h2 class="section-title">Mortgage Readiness &mdash; <em>Summary</em></h2>
+      <div class="result-grid">
+        <div class="card">
+          <h3><div class="card-icon">&#127919;</div> Lending Estimate</h3>
+          <div class="field-row"><span class="field-label">Guaranteed Income</span><span class="field-value highlight">&pound;36,000/year</span></div>
+          <div class="field-row"><span class="field-label">Max Multiplier (4.5x)</span><span class="field-value highlight">&pound;162,000</span></div>
+          <div class="field-row"><span class="field-label">With Overtime (if evidenced)</span><span class="field-value">&pound;169,650</span></div>
+          <div class="field-row"><span class="field-label">Existing Mortgage</span><span class="field-value flag">&pound;1,245/mo (replaced if remortgage)</span></div>
+          <div class="field-row"><span class="field-label">Student Loan Impact</span><span class="field-value warning">Reduces max by ~&pound;5,000&ndash;8,000</span></div>
+          <div class="ai-insight"><strong>AI Summary:</strong> Based on basic salary, client qualifies for up to <strong>&pound;162,000</strong> at 4.5x. If this is a remortgage, the existing &pound;1,245/mo payment is freed up. Recommend 3 months' payslips to evidence overtime as regular income.</div>
+        </div>
+        <div class="card">
+          <h3><div class="card-icon">&#128221;</div> Document Checklist</h3>
+          <div class="checklist-item"><div class="check yes">&#10003;</div><div><strong>Payslip (Jan 2026)</strong> &mdash; received, verified</div></div>
+          <div class="checklist-item"><div class="check no">&#10007;</div><div><strong>Payslip (Dec 2025)</strong> &mdash; not yet received</div></div>
+          <div class="checklist-item"><div class="check no">&#10007;</div><div><strong>Payslip (Nov 2025)</strong> &mdash; not yet received</div></div>
+          <div class="checklist-item"><div class="check yes">&#10003;</div><div><strong>Bank Statement (Jan 2026)</strong> &mdash; received, verified</div></div>
+          <div class="checklist-item"><div class="check no">&#10007;</div><div><strong>Bank Statement (Dec 2025)</strong> &mdash; not yet received</div></div>
+          <div class="checklist-item"><div class="check no">&#10007;</div><div><strong>Bank Statement (Nov 2025)</strong> &mdash; not yet received</div></div>
+          <div class="checklist-item"><div class="check no">&#10007;</div><div><strong>Photo ID</strong> &mdash; not yet received</div></div>
+          <div class="checklist-item"><div class="check no">&#10007;</div><div><strong>Proof of Address</strong> &mdash; not yet received</div></div>
+          <div class="meter-container" style="margin-top: 14px;">
+            <div class="meter-label"><span>Application Completeness</span><span>25%</span></div>
+            <div class="meter"><div class="meter-fill" style="width:25%; background: var(--gold);"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="action-bar">
+        <button class="action-btn primary" onclick="alert('In production, this auto-generates a personalised email to the client listing their outstanding documents.')">&#128231; Email Client: Request Missing Docs</button>
+        <button class="action-btn secondary" onclick="alert('In production, this exports extracted data directly into your CRM or case management system.')">&#128190; Export to CRM</button>
+        <button class="action-btn secondary" onclick="alert('In production, this generates a PDF suitability report pre-filled with all extracted data.')">&#128196; Generate Suitability Report</button>
+      </div>
+    </div>
+
+    <button class="reset-btn" onclick="resetAll()">&#8634; Process Another Client</button>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-strip">
+    <h2>Ready to automate your document workflow?</h2>
+    <p>See how 123-AI can save your brokerage hours every week.</p>
+    <a href="mailto:hello@123-ai.co.uk">Book a Free Call</a>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>&copy; 2026 <a href="index.html">123-AI</a> &mdash; AI consulting for small business</p>
+</div>
+
+<script>
+function runDemo(type) {
+  document.getElementById('uploadZone').style.display = 'none';
+  const proc = document.getElementById('processing');
+  proc.classList.add('active');
+  const steps = ['step1','step2','step3','step4','step5','step6'];
+  let i = 0;
+  function nextStep() {
+    if (i > 0) {
+      document.getElementById(steps[i-1]).classList.remove('active');
+      document.getElementById(steps[i-1]).classList.add('done');
+      document.getElementById(steps[i-1]).querySelector('.step-icon').innerHTML = '&#10003;';
+    }
+    if (i < steps.length) {
+      document.getElementById(steps[i]).classList.add('active');
+      i++;
+      setTimeout(nextStep, 500 + Math.random() * 500);
+    } else {
+      setTimeout(() => showResults(type), 300);
+    }
+  }
+  nextStep();
+}
+
+function showResults(type) {
+  document.getElementById('processing').classList.remove('active');
+  document.getElementById('results').classList.add('active');
+  if (type === 'payslip' || type === 'both') document.getElementById('payslipResults').style.display = 'block';
+  if (type === 'bankstatement' || type === 'both') document.getElementById('bankResults').style.display = 'block';
+  if (type === 'both') document.getElementById('combinedResults').style.display = 'block';
+}
+
+function resetAll() {
+  document.getElementById('results').classList.remove('active');
+  ['payslipResults','bankResults','combinedResults'].forEach(id => document.getElementById(id).style.display = 'none');
+  document.getElementById('uploadZone').style.display = 'block';
+  for (let i = 1; i <= 6; i++) {
+    const s = document.getElementById('step' + i);
+    s.classList.remove('active','done');
+    s.querySelector('.step-icon').innerHTML = i;
+  }
+}
+
+const zone = document.getElementById('uploadZone');
+zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
+zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('dragover'); runDemo('both'); });
+document.getElementById('fileInput').addEventListener('change', () => runDemo('both'));
+</script>
+</body>
+</html>
