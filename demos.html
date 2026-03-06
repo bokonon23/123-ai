@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What We've Built — 123-AI Demos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --forest:     #1a3a2a;
+      --canopy:     #2d5a3d;
+      --moss:       #4a7c5e;
+      --fern:       #6aaa82;
+      --mist:       #c8dfd0;
+      --cream:      #f4f0e6;
+      --warm-white: #faf8f2;
+      --bark:       #5c4a32;
+      --earth:      #8b6f4e;
+      --gold:       #c4923a;
+      --text-dark:  #1e2820;
+      --text-mid:   #3d4f42;
+      --text-light: #6b7d6f;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body:    'Lato', sans-serif;
+      --radius:    4px;
+      --radius-lg: 12px;
+      --shadow:    0 4px 24px rgba(26,58,42,0.12);
+      --shadow-lg: 0 12px 48px rgba(26,58,42,0.18);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--warm-white);
+      color: var(--text-dark);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 0 5%;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(244, 240, 230, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(74,124,94,0.15);
+      transition: box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow: 0 2px 20px rgba(26,58,42,0.1); }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--forest);
+      display: flex;
+      align-items: baseline;
+      gap: 2px;
+    }
+    .nav-logo .accent { color: var(--moss); font-style: italic; }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: var(--text-mid);
+      letter-spacing: 0.03em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--canopy); }
+    .nav-links a.active { color: var(--canopy); font-weight: 700; }
+    .btn {
+      display: inline-block;
+      padding: 0.65rem 1.6rem;
+      border-radius: var(--radius);
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: all 0.25s;
+      border: none;
+    }
+    .btn-primary { background: var(--canopy); color: var(--cream); }
+    .btn-primary:hover { background: var(--forest); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(26,58,42,0.25); }
+    .btn-lg { padding: 0.85rem 2.2rem; font-size: 1rem; }
+    .btn-cream { background: var(--cream); color: var(--forest); }
+    .btn-cream:hover { background: var(--warm-white); transform: translateY(-1px); }
+
+    /* HERO */
+    #hero {
+      background: linear-gradient(145deg, rgba(26,58,42,0.82) 0%, rgba(45,90,61,0.75) 100%),
+                  url('images/hero-bg.jpg') center center / cover no-repeat;
+      padding: 140px 5% 80px;
+      text-align: center;
+    }
+    .hero-inner {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(196,146,58,0.15);
+      border: 1px solid rgba(196,146,58,0.35);
+      color: var(--gold);
+      padding: 0.4rem 1.2rem;
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1.75rem;
+    }
+    .hero-headline {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--cream);
+      margin-bottom: 1.25rem;
+    }
+    .hero-headline em { font-style: italic; color: var(--fern); }
+    .hero-sub {
+      font-size: 1.05rem;
+      color: rgba(244,240,230,0.78);
+      line-height: 1.8;
+      font-weight: 300;
+      max-width: 540px;
+      margin: 0 auto;
+    }
+
+    /* SECTION */
+    .section-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 5rem 5%;
+    }
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--moss);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--moss);
+      border-radius: 2px;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--forest);
+      margin-bottom: 0.75rem;
+    }
+    .section-title em { font-style: italic; color: var(--moss); }
+    .section-intro {
+      font-size: 1.05rem;
+      color: var(--text-mid);
+      max-width: 580px;
+      line-height: 1.8;
+      margin-bottom: 3.5rem;
+    }
+
+    /* DEMO CARDS */
+    .demos-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .demo-card {
+      background: var(--cream);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(74,124,94,0.12);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      transition: all 0.3s;
+    }
+    .demo-card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-3px);
+      border-color: rgba(74,124,94,0.25);
+    }
+    .demo-card.reverse { direction: rtl; }
+    .demo-card.reverse > * { direction: ltr; }
+
+    .demo-visual {
+      position: relative;
+      overflow: hidden;
+      min-height: 340px;
+      background: var(--forest);
+    }
+    .demo-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      transition: transform 0.4s ease;
+    }
+    .demo-card:hover .demo-visual img {
+      transform: scale(1.03);
+    }
+    .demo-visual-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, transparent 60%, rgba(244,240,230,0.12));
+      pointer-events: none;
+    }
+    .demo-card.reverse .demo-visual-overlay {
+      background: linear-gradient(to left, transparent 60%, rgba(244,240,230,0.12));
+    }
+
+    .demo-content {
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .demo-type {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--moss);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .demo-type::before {
+      content: '';
+      display: block;
+      width: 16px;
+      height: 2px;
+      background: var(--moss);
+      border-radius: 2px;
+    }
+    .demo-title {
+      font-family: var(--font-display);
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--forest);
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+    .demo-title em { font-style: italic; color: var(--moss); }
+    .demo-desc {
+      font-size: 0.95rem;
+      color: var(--text-mid);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+    .demo-tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .demo-tag {
+      padding: 0.3rem 0.8rem;
+      background: rgba(74,124,94,0.1);
+      color: var(--canopy);
+      border-radius: 100px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .demo-actions {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .demo-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--canopy);
+      transition: color 0.2s;
+    }
+    .demo-link:hover { color: var(--forest); }
+    .demo-link .arrow {
+      display: inline-block;
+      transition: transform 0.2s;
+    }
+    .demo-link:hover .arrow { transform: translateX(3px); }
+
+    /* META CARD — full width, special style */
+    .demo-card.meta {
+      grid-template-columns: 1fr;
+      background: linear-gradient(135deg, var(--forest) 0%, var(--canopy) 100%);
+      border-color: transparent;
+      text-align: center;
+      padding: 4rem 3rem;
+    }
+    .demo-card.meta .demo-type { color: var(--fern); justify-content: center; }
+    .demo-card.meta .demo-type::before { background: var(--fern); }
+    .demo-card.meta .demo-title { color: var(--cream); }
+    .demo-card.meta .demo-title em { color: var(--fern); }
+    .demo-card.meta .demo-desc { color: rgba(244,240,230,0.75); max-width: 520px; margin: 0 auto 1.5rem; }
+    .demo-card.meta .demo-tag { background: rgba(244,240,230,0.12); color: var(--mist); }
+    .demo-card.meta .demo-tags { justify-content: center; }
+    .demo-card.meta .demo-actions { justify-content: center; }
+    .demo-card.meta .demo-link { color: var(--fern); }
+    .demo-card.meta .demo-link:hover { color: var(--mist); }
+
+    /* BUILT BY SECTION */
+    .built-by {
+      background: var(--cream);
+      border-top: 1px solid rgba(74,124,94,0.1);
+    }
+    .built-by-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .built-by-card {
+      background: var(--warm-white);
+      border: 1px solid rgba(74,124,94,0.1);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+    }
+    .built-by-card .icon { font-size: 1.75rem; margin-bottom: 1rem; display: block; }
+    .built-by-card h4 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      color: var(--forest);
+      margin-bottom: 0.4rem;
+    }
+    .built-by-card p { font-size: 0.875rem; color: var(--text-light); line-height: 1.6; }
+
+    /* CTA */
+    #cta { background: var(--warm-white); }
+    .cta-box {
+      background: linear-gradient(135deg, rgba(26,58,42,0.80) 0%, rgba(45,90,61,0.75) 100%),
+                  url('images/hero-bg.jpg') center center / cover no-repeat;
+      border-radius: 20px;
+      padding: 5rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 3rem;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .cta-box::before {
+      content: '🌿';
+      position: absolute;
+      right: 38%;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 10rem;
+      opacity: 0.04;
+      pointer-events: none;
+    }
+    .cta-box h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      color: var(--cream);
+      margin-bottom: 0.75rem;
+    }
+    .cta-box h2 em { font-style: italic; color: var(--fern); }
+    .cta-box p { color: rgba(244,240,230,0.7); font-size: 0.95rem; max-width: 480px; }
+    .cta-actions { display: flex; flex-direction: column; gap: 0.75rem; flex-shrink: 0; }
+
+    /* FOOTER */
+    footer { background: var(--text-dark); color: rgba(244,240,230,0.5); padding: 3rem 5%; }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo { font-family: var(--font-display); font-size: 1.2rem; color: var(--cream); }
+    .footer-logo span { color: var(--fern); font-style: italic; }
+    .footer-links { display: flex; gap: 2rem; list-style: none; }
+    .footer-links a { font-size: 0.8rem; color: rgba(244,240,230,0.5); transition: color 0.2s; }
+    .footer-links a:hover { color: var(--fern); }
+    .footer-copy {
+      font-size: 0.78rem;
+      text-align: center;
+      width: 100%;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(244,240,230,0.06);
+      margin-top: 1rem;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .demo-card { grid-template-columns: 1fr; }
+      .demo-card.reverse { direction: ltr; }
+      .demo-visual { min-height: 240px; }
+      .demo-card.meta { padding: 3rem 2rem; }
+      .built-by-grid { grid-template-columns: 1fr; }
+      .cta-box { grid-template-columns: 1fr; text-align: center; padding: 3rem 2rem; }
+      .cta-actions { align-items: center; }
+    }
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .demo-content { padding: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="main-nav">
+    <a href="index.html" class="nav-logo">123<span class="accent">-AI</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html#services">Services</a></li>
+      <li><a href="ai-showcase.html">AI Showcase</a></li>
+      <li><a href="demos.html" class="active">Demos</a></li>
+      <li><a href="blog.html">Blog</a></li>
+    </ul>
+    <a href="mailto:hello@123-ai.co.uk" class="btn btn-primary">Book a Free Call</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-inner">
+      <div class="hero-tag">⚡ Real builds · Real tools · Real results</div>
+      <h1 class="hero-headline">What we've <em>built</em></h1>
+      <p class="hero-sub">Not mockups. Not concepts. Working tools — built fast, deployed live, each one a proof of what AI can actually do today.</p>
+    </div>
+  </section>
+
+  <!-- DEMOS -->
+  <section id="demos">
+    <div class="section-inner">
+      <div class="section-label">Live Demos</div>
+      <h2 class="section-title">Three tools. <em>Three days of work.</em></h2>
+      <p class="section-intro">Each of these was built by an AI agent working from a plain-English brief. Functional, deployed, and open to try right now.</p>
+
+      <div class="demos-grid">
+
+        <!-- DAYSHAPE -->
+        <div class="demo-card">
+          <div class="demo-visual">
+            <img src="images/dayshape-demo.png" alt="DayShape health data visualiser showing heart rate, HRV and sauna session analysis" />
+            <div class="demo-visual-overlay"></div>
+          </div>
+          <div class="demo-content">
+            <div class="demo-type">Health &amp; Data</div>
+            <h3 class="demo-title">DayShape — <em>Health Data Visualiser</em></h3>
+            <p class="demo-desc">Upload an Apple Health CSV export and DayShape maps your day — heart rate, HRV, sauna sessions, recovery curves, and energy output. No account, no server, no data stored. Everything runs in your browser.</p>
+            <div class="demo-tags">
+              <span class="demo-tag">Apple Health</span>
+              <span class="demo-tag">Data Viz</span>
+              <span class="demo-tag">Client-side</span>
+              <span class="demo-tag">Claude Code</span>
+            </div>
+            <div class="demo-actions">
+              <a href="https://bokonon23.github.io/dayshape/" target="_blank" rel="noopener" class="btn btn-primary">Try DayShape →</a>
+              <a href="ai-showcase.html" class="demo-link">How it was built <span class="arrow">→</span></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- DOCUMENT PROCESSOR -->
+        <div class="demo-card reverse">
+          <div class="demo-visual" style="background: linear-gradient(135deg, var(--forest) 0%, var(--canopy) 100%); display:flex; align-items:center; justify-content:center; padding: 2rem;">
+            <div style="text-align:center; color: var(--cream);">
+              <div style="font-size:4rem; margin-bottom:1.5rem;">📄</div>
+              <div style="font-family: var(--font-display); font-size:1.4rem; margin-bottom:0.75rem; color: var(--cream);">Document Processor</div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-top:1.5rem;">
+                <div style="background:rgba(244,240,230,0.08); border:1px solid rgba(200,223,208,0.15); border-radius:8px; padding:0.75rem; text-align:center;">
+                  <div style="font-family:var(--font-display); font-size:1.5rem; color:var(--gold);">&lt;10s</div>
+                  <div style="font-size:0.65rem; color:rgba(244,240,230,0.5); text-transform:uppercase; letter-spacing:0.05em;">Processing time</div>
+                </div>
+                <div style="background:rgba(244,240,230,0.08); border:1px solid rgba(200,223,208,0.15); border-radius:8px; padding:0.75rem; text-align:center;">
+                  <div style="font-family:var(--font-display); font-size:1.5rem; color:var(--gold);">15+</div>
+                  <div style="font-size:0.65rem; color:rgba(244,240,230,0.5); text-transform:uppercase; letter-spacing:0.05em;">Data points</div>
+                </div>
+                <div style="background:rgba(244,240,230,0.08); border:1px solid rgba(200,223,208,0.15); border-radius:8px; padding:0.75rem; text-align:center;">
+                  <div style="font-family:var(--font-display); font-size:1.5rem; color:var(--gold);">98%</div>
+                  <div style="font-size:0.65rem; color:rgba(244,240,230,0.5); text-transform:uppercase; letter-spacing:0.05em;">Accuracy</div>
+                </div>
+                <div style="background:rgba(244,240,230,0.08); border:1px solid rgba(200,223,208,0.15); border-radius:8px; padding:0.75rem; text-align:center;">
+                  <div style="font-family:var(--font-display); font-size:1.5rem; color:var(--gold);">0</div>
+                  <div style="font-size:0.65rem; color:rgba(244,240,230,0.5); text-transform:uppercase; letter-spacing:0.05em;">Manual entry</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="demo-content">
+            <div class="demo-type">Mortgage &amp; Finance</div>
+            <h3 class="demo-title">Document Processor — <em>AI Mortgage Tool</em></h3>
+            <p class="demo-desc">Upload a payslip or bank statement and the AI extracts income, deductions, spending patterns and mortgage-readiness data in seconds. Built for mortgage brokers — but the pattern applies to any document-heavy workflow.</p>
+            <div class="demo-tags">
+              <span class="demo-tag">Document AI</span>
+              <span class="demo-tag">Mortgage</span>
+              <span class="demo-tag">Data Extraction</span>
+              <span class="demo-tag">Claude Code</span>
+            </div>
+            <div class="demo-actions">
+              <a href="document-processor-demo.html" class="btn btn-primary">Try the Demo →</a>
+              <a href="index.html#demo" class="demo-link">See the case study <span class="arrow">→</span></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- META: THIS SITE -->
+        <div class="demo-card meta">
+          <div class="demo-type">Meta Demo</div>
+          <h3 class="demo-title">This website — <em>built by an AI agent</em></h3>
+          <p class="demo-desc">Every page on 123-ai.co.uk was designed, written and deployed by an AI agent working from a plain-English brief. The full story — design decisions, timeline, and what it means for your business — is on the AI Showcase page.</p>
+          <div class="demo-tags">
+            <span class="demo-tag">Web Design</span>
+            <span class="demo-tag">Copywriting</span>
+            <span class="demo-tag">GitHub Pages</span>
+            <span class="demo-tag">OpenClaw Agent</span>
+          </div>
+          <div class="demo-actions" style="margin-top:1.5rem;">
+            <a href="ai-showcase.html" class="btn btn-cream btn-lg">Read the Showcase →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW THEY'RE BUILT -->
+  <section class="built-by">
+    <div class="section-inner">
+      <div style="text-align:center; max-width:560px; margin:0 auto;">
+        <div class="section-label" style="justify-content:center;">Under the Hood</div>
+        <h2 class="section-title" style="text-align:center;">How we build <em>this fast</em></h2>
+        <p class="section-intro" style="margin:0 auto 3.5rem; text-align:center;">The same toolkit we use for demos is what we deploy for clients.</p>
+      </div>
+      <div class="built-by-grid">
+        <div class="built-by-card">
+          <span class="icon">🤖</span>
+          <h4>AI Agents</h4>
+          <p>Persistent agents that can read, write, search, build and deploy — working autonomously from a brief. No hand-holding required after kick-off.</p>
+        </div>
+        <div class="built-by-card">
+          <span class="icon">⚡</span>
+          <h4>Claude Code</h4>
+          <p>Anthropic's coding agent writes production-quality code at speed. What used to take a development sprint now takes an afternoon.</p>
+        </div>
+        <div class="built-by-card">
+          <span class="icon">🚀</span>
+          <h4>Ship First, Polish Later</h4>
+          <p>We build a working version fast, put it in front of real users, and improve from there. No 6-week discovery phases, no specs that never ship.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta">
+    <div class="section-inner" style="padding-top:2rem; padding-bottom:6rem;">
+      <div class="cta-box">
+        <div>
+          <h2>Want something <em>built for your business?</em></h2>
+          <p>Book a free 30-minute call. We'll listen to what you need, tell you honestly what's possible, and show you what a first version could look like — often within days, not months.</p>
+        </div>
+        <div class="cta-actions" id="contact">
+          <a href="mailto:hello@123-ai.co.uk" class="btn btn-cream btn-lg">Book a Free Call</a>
+          <a href="mailto:hello@123-ai.co.uk" style="font-size:0.8rem; color:rgba(244,240,230,0.6); text-align:center;">or email hello@123-ai.co.uk</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">123<span>-AI</span>.co.uk</div>
+      <ul class="footer-links">
+        <li><a href="index.html#services">Services</a></li>
+        <li><a href="index.html#process">Process</a></li>
+        <li><a href="ai-showcase.html">AI Showcase</a></li>
+        <li><a href="demos.html">Demos</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="mailto:hello@123-ai.co.uk">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-inner footer-copy">
+      © 2026 123-AI Ltd · Registered in England & Wales · hello@123-ai.co.uk
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    });
+  </script>
+</body>
+</html>
