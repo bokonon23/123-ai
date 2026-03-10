@@ -133,6 +133,46 @@
     }
     .nav-links a:hover { color: var(--canopy); }
 
+    .nav-dropdown {
+      position: relative;
+    }
+    .nav-dropdown-trigger {
+      cursor: pointer;
+    }
+    .dropdown-arrow {
+      font-size: 0.7em;
+      margin-left: 2px;
+    }
+    .nav-dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(244, 240, 230, 0.97);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(74,124,94,0.15);
+      border-radius: var(--radius);
+      padding: 0.5rem 0;
+      min-width: 150px;
+      box-shadow: var(--shadow);
+      list-style: none;
+      z-index: 200;
+      margin-top: 0.75rem;
+    }
+    .nav-dropdown:hover .nav-dropdown-menu {
+      display: block;
+    }
+    .nav-dropdown-menu li a {
+      display: block;
+      padding: 0.5rem 1.25rem;
+      font-size: 0.85rem;
+      white-space: nowrap;
+    }
+    .nav-dropdown-menu li a:hover {
+      background: rgba(74,124,94,0.06);
+    }
+
     .btn {
       display: inline-block;
       padding: 0.65rem 1.6rem;
@@ -186,7 +226,7 @@
       min-height: 100vh;
       display: flex;
       align-items: center;
-      background: linear-gradient(145deg, rgba(26,58,42,0.72) 0%, rgba(45,90,61,0.65) 55%, rgba(61,122,82,0.60) 100%), url('images/hero-bg.jpg') center center / cover no-repeat;
+      background: linear-gradient(145deg, rgba(42,62,82,0.55) 0%, rgba(58,88,110,0.45) 40%, rgba(82,120,148,0.35) 100%), url('images/hero-bg.jpg') center center / cover no-repeat;
       overflow: hidden;
       padding-top: 72px;
     }
@@ -225,10 +265,10 @@
       max-width: 1200px;
       margin: 0 auto;
       padding: 4rem 5% 3rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
+      display: flex;
+      flex-direction: column;
       align-items: center;
+      text-align: center;
     }
 
     .hero-tag {
@@ -271,18 +311,21 @@
     }
 
     .hero-sub {
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       color: rgba(244,240,230,0.8);
       line-height: 1.8;
       margin-bottom: 2.5rem;
       font-weight: 300;
-      max-width: 480px;
+      max-width: 620px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .hero-ctas {
       display: flex;
       gap: 1rem;
       flex-wrap: wrap;
+      justify-content: center;
     }
 
     /* Hero right — nature illustration card */
@@ -325,17 +368,18 @@
     }
 
     .hero-stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
+      display: flex;
+      gap: 1.5rem;
       margin-top: 1.5rem;
+      justify-content: center;
     }
     .hero-stat {
-      background: rgba(244,240,230,0.06);
-      border: 1px solid rgba(200,223,208,0.15);
-      border-radius: var(--radius);
-      padding: 1.2rem 1.5rem;
+      background: rgba(26,30,40,0.35);
+      border: 1px solid rgba(200,223,208,0.2);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem 2.5rem;
       text-align: center;
+      backdrop-filter: blur(12px);
     }
     .hero-stat .num {
       font-family: var(--font-display);
@@ -373,13 +417,8 @@
       align-items: center;
       gap: 10px;
     }
-    .section-label::before {
-      content: '';
-      display: block;
-      width: 24px;
-      height: 2px;
-      background: var(--moss);
-      border-radius: 2px;
+    .section-label::after {
+      content: ':';
     }
 
     .section-title {
@@ -934,6 +973,14 @@
       color: var(--text-mid);
       letter-spacing: 0.02em;
       transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tool-pill svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
     }
     .tool-pill:hover {
       background: rgba(74,124,94,0.08);
@@ -1104,8 +1151,7 @@
        RESPONSIVE
     ============================================= */
     @media (max-width: 900px) {
-      .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
-      .hero-visual { display: none; }
+      .hero-inner { padding: 3rem 5% 2rem; }
       .ethos-inner { grid-template-columns: 1fr; gap: 3rem; }
       .services-header { grid-template-columns: 1fr; gap: 1.5rem; }
       .services-grid { grid-template-columns: 1fr; }
@@ -1120,7 +1166,8 @@
     @media (max-width: 600px) {
       .nav-links { display: none; }
       .process-steps { grid-template-columns: 1fr; }
-      .hero-stats { grid-template-columns: 1fr 1fr; }
+      .hero-stats { flex-direction: column; align-items: center; }
+      .hero-headline { font-size: clamp(2rem, 5vw, 4rem); }
     }
   </style>
 </head>
@@ -1130,14 +1177,18 @@
   <nav id="main-nav">
     <div class="nav-logo">123<span class="accent">-AI</span></div>
     <ul class="nav-links">
-      <li><a href="#demo">Case Study</a></li>
       <li><a href="#services">Services</a></li>
+      <li><a href="#demo">Case Study</a></li>
       <li><a href="#process">How It Works</a></li>
-      <li><a href="#who">Who It's For</a></li>
       <li><a href="#faq">FAQs</a></li>
-      <li><a href="ai-showcase.html">AI Showcase</a></li>
-      <li><a href="demos.html">Demos</a></li>
-      <li><a href="blog.html">Blog</a></li>
+      <li class="nav-dropdown">
+        <a href="#" class="nav-dropdown-trigger">Explore <span class="dropdown-arrow">▾</span></a>
+        <ul class="nav-dropdown-menu">
+          <li><a href="ai-showcase.html">AI Showcase</a></li>
+          <li><a href="demos.html">Demos</a></li>
+          <li><a href="blog.html">Blog</a></li>
+        </ul>
+      </li>
     </ul>
     <a href="#contact" class="btn btn-primary">Book a Free Call</a>
   </nav>
@@ -1166,26 +1217,17 @@
           AI Consulting · Small Business · UK
         </div>
         <h1 class="hero-headline">
-          AI that gives you<br>
-          <em>more time outside</em>
+          Freedom to work when you want,<br>
+          where you want. <em>On your terms.</em>
         </h1>
         <p class="hero-sub">
-          Practical AI and automation for small businesses — so you spend less time at a screen and more time doing what actually matters. Work from a walk. Think more clearly. Grow sustainably.
+          Practical AI and automation for small businesses. We build the systems that run your back office, so you can spend your time where it matters most.
         </p>
         <div class="hero-ctas">
           <a href="#contact" class="btn btn-cream btn-lg">Book a Free Call</a>
-          <a href="#services" class="btn btn-outline btn-lg" style="color:var(--mist);border-color:var(--mist);">See How It Works</a>
+          <a href="#services" class="btn btn-outline btn-lg" style="color:var(--cream);border-color:rgba(244,240,230,0.5);background:rgba(244,240,230,0.1);">See How It Works</a>
         </div>
-      </div>
-
-      <div class="hero-visual">
-        <div class="hero-card">
-          <span class="hero-card-icon">🌳</span>
-          <h3>The Work From Walk Principle</h3>
-          <p>AI shouldn't tie you to your desk. The best thinking happens away from screens — in nature, on foot, with space to breathe. We build the systems that let you step away.</p>
-          <div class="hero-card-bg"></div>
-        </div>
-        <div class="hero-stats">
+        <div class="hero-stats" style="margin-top: 3rem;">
           <div class="hero-stat">
             <span class="num">&lt;30s</span>
             <span class="label">from client enquiry to auto-reply</span>
@@ -1204,15 +1246,15 @@
     <div class="tools-inner">
       <span class="tools-label">Tools we work with</span>
       <div class="tools-list">
-        <span class="tool-pill">Claude AI</span>
-        <span class="tool-pill">ChatGPT</span>
-        <span class="tool-pill">Custom AI Agents</span>
-        <span class="tool-pill">Google Workspace</span>
-        <span class="tool-pill">GitHub</span>
-        <span class="tool-pill">Make.com</span>
-        <span class="tool-pill">Zapier</span>
-        <span class="tool-pill">Notion</span>
-        <span class="tool-pill">Airtable</span>
+        <span class="tool-pill"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#c4923a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Claude AI</span>
+        <span class="tool-pill"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#10a37f" stroke-width="2"/><path d="M8 12h8M12 8v8" stroke="#10a37f" stroke-width="2" stroke-linecap="round"/></svg>ChatGPT</span>
+        <span class="tool-pill"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="#4a7c5e" stroke-width="2"/><circle cx="9" cy="10" r="1.5" fill="#4a7c5e"/><circle cx="15" cy="10" r="1.5" fill="#4a7c5e"/><path d="M8 15c0 0 2 2 4 2s4-2 4-2" stroke="#4a7c5e" stroke-width="1.5" stroke-linecap="round"/></svg>Custom AI Agents</span>
+        <span class="tool-pill"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke="#4285f4" stroke-width="2" stroke-linecap="round"/></svg>Google Workspace</span>
+        <span class="tool-pill"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.58 9.58 0 0112 6.8c.85 0 1.7.11 2.5.34 1.9-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.16.59.67.5A10.02 10.02 0 0022 12c0-5.523-4.477-10-10-10z" fill="#333"/></svg>GitHub</span>
+        <span class="tool-pill"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#6611cc" stroke-width="2"/><path d="M7 12l3 3 7-7" stroke="#6611cc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Make.com</span>
+        <span class="tool-pill"><svg viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="#ff4a00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Zapier</span>
+        <span class="tool-pill"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="#000" stroke-width="2"/><path d="M8 12h8" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg>Notion</span>
+        <span class="tool-pill"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 10h16M4 14h16M4 18h16" stroke="#2d7ff9" stroke-width="2" stroke-linecap="round"/><circle cx="8" cy="6" r="1.5" fill="#2d7ff9"/><circle cx="14" cy="10" r="1.5" fill="#2d7ff9"/><circle cx="10" cy="14" r="1.5" fill="#2d7ff9"/><circle cx="16" cy="18" r="1.5" fill="#2d7ff9"/></svg>Airtable</span>
       </div>
     </div>
   </div>
